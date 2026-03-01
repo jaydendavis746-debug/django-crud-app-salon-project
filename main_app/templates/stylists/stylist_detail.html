@@ -7,35 +7,29 @@
     </section>
 
     <section class="stylist-services">
-        <h2>Services & Prices</h2>
+    <h2>Services & Available Time Slots</h2>
+
+    {% for item in service_slots %}
+        <h3>{{ item.service.name }} - £{{ item.price }}</h3>
 
         <ul>
-            {% for item in stylist_services %}
+            {% for slot in item.slots %}
                 <li>
-                    {{ item.service.name }} - £{{ item.price }}
+                    {{ slot.date }} at {{ slot.time }}
+
+                    <a href="{% url 'book-appointment' slot.id item.service.id %}">
+                        Book
+                    </a>
                 </li>
             {% empty %}
-                <li>This stylist has no services yet.</li>
+                <li>No available slots for this service.</li>
             {% endfor %}
         </ul>
-    </section>
 
-    <section class="stylist-availabilities">
-        <h2>Available Time Slots</h2>
-
-        <ul>
-        {% for slot in availabilities %}
-            <li>
-            {{ slot.date }} at {{ slot.time }}
-            <!-- Booking button will go here next -->
-            </li>
-        {% empty %}
-            <li>No available slots.</li>
-        {% endfor %}
-        </ul>
-        
-
-    </section>
+    {% empty %}
+        <p>This stylist has no services yet.</p>
+    {% endfor %}
+</section>
 
 </main>
 

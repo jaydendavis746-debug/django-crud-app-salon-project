@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Book Appointment</h1>
+
+<p>Service: {{view.service.name}} </p>
+<p>Stylist: {{view.availability.stylist.username}}</p>
+<p>Date: {{view.availability.date}} </p>
+<p>Time: {{view.availability.time}}  </p>
+
+<form action="" method="post">
+
+    {% csrf_token %}
+
+    {% if not user.is_authenticated %}
+        {{form.guest_name.label_tag}} {{form.guest_name}}
+        {{form.guest_email.label_tag}} {{form.guest_email }}
+    {% endif %}
+
+    <button type="'submit" >Confirm Booking</button>
+</form>
+
+{% endblock %}

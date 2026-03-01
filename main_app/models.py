@@ -34,11 +34,15 @@ class Availability(models.Model):
 
 
 class Appointment(models.Model):
-    customer = models.ForeignKey(User, on_delete=models.CASCADE)
+    customer = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    guest_name = models.CharField(max_length=100, blank=True)
+    guest_email = models.EmailField(blank=True)
     stylist = models.ForeignKey(User, on_delete=models.CASCADE, related_name='appointments')
     service = models.ForeignKey(Service, on_delete=models.CASCADE)
     availability = models.OneToOneField(Availability, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f'{self.customer.username} - {self.service.name}'
+        if self.customer:
+            return f'{self.customer.username} - {self.service.name}'
+        return f'{self.guest_name} - {self.service.name}'
