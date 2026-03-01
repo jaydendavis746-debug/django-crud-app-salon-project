@@ -12,12 +12,9 @@
 
     {% csrf_token %}
 
-    {% if not user.is_authenticated %}
-        {{form.guest_name.label_tag}} {{form.guest_name}}
-        {{form.guest_email.label_tag}} {{form.guest_email }}
-    {% endif %}
+    {{ form.as_p }}
 
-    <button type="'submit" >Confirm Booking</button>
+    <button type="submit" >Confirm Booking</button>
 </form>
 
 {% endblock %}
