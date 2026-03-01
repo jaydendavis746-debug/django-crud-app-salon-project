@@ -2,7 +2,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 
-from .models import Service, StylistService
+from .models import Service, StylistService, Availability
 from django.contrib.auth.models import User
 
 from django.views.generic import ListView, DetailView
@@ -51,5 +51,9 @@ class StylistDetail(DetailView):
         context['stylist_services'] = (
             StylistService.objects.filter(stylist=self.object).select_related('service')
         )    
+
+        context['availabilities'] = (
+            Availability.objects.filter(stylist=self.object, is_booked=False).order_by('date', 'time')
+        )
 
         return context

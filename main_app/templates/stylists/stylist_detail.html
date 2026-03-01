@@ -20,6 +20,23 @@
         </ul>
     </section>
 
+    <section class="stylist-availabilities">
+        <h2>Available Time Slots</h2>
+
+        <ul>
+        {% for slot in availabilities %}
+            <li>
+            {{ slot.date }} at {{ slot.time }}
+            <!-- Booking button will go here next -->
+            </li>
+        {% empty %}
+            <li>No available slots.</li>
+        {% endfor %}
+        </ul>
+        
+
+    </section>
+
 </main>
 
 {% endblock %}
