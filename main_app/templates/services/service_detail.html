@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block content %}
+<main>
+    <section class="service-details" >
+
+    <h1>{{service.name}} </h1>
+
+    <p>Duration: {{service.duration}} minutes </p>
+
+
+    </section>
+
+    <section class="stylist-details">
+
+        <h2>Stylist offering this service </h2>
+
+        <ul>
+            {% for item in stylist_services %}
+                <li>
+                    <a href="{% url 'stylist-detail' item.stylist.id %}">
+                        {{item.stylist.username}}
+                    </a>
+                    - £{{item.price}}
+                </li>
+
+                {% empty %}
+
+                <li>No stylist offer this service yet.</li>
+            {% endfor %}
+        </ul>
+    </section>
+    <a href="{% url 'service-list' %}">Back to services</a>
+</main>
+{% endblock %}

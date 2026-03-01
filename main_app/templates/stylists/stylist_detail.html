@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<main>
+    <section class="stylist-header">
+        <h1>Stylist: {{ stylist.username }}</h1>
+    </section>
+
+    <section class="stylist-services">
+        <h2>Services & Prices</h2>
+
+        <ul>
+            {% for item in stylist_services %}
+                <li>
+                    {{ item.service.name }} - £{{ item.price }}
+                </li>
+            {% empty %}
+                <li>This stylist has no services yet.</li>
+            {% endfor %}
+        </ul>
+    </section>
+
+</main>
+
+{% endblock %}
