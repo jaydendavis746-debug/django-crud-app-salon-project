@@ -4,6 +4,7 @@ from django.urls import reverse
 from django.http import HttpResponse
 
 from .models import Service, StylistService, Availability, Appointment
+from .forms import AppointmentForm
 from django.contrib.auth.models import User
 
 from django.views.generic import ListView, DetailView
@@ -75,7 +76,7 @@ class StylistDetail(DetailView):
 
 class AppointmentCreate(CreateView):
     model = Appointment
-    fields = ['guest_name', 'guest_email']
+    form_class = AppointmentForm
     template_name = 'bookings/appointment_form.html'
 
     def dispatch(self, request,*args, **kwargs):
@@ -86,7 +87,7 @@ class AppointmentCreate(CreateView):
 
         return super().dispatch(request,*args, **kwargs)
 
-    def form_valid(self, form ):
+    def form_valid(self, form):
         form.instance.stylist = self.availability.stylist
         form.instance.service = self.service
         form.instance.availability = self.availability
@@ -97,7 +98,18 @@ class AppointmentCreate(CreateView):
         self.availability.save()
         return super().form_valid(form)
 
-    def get_success_url(self):
-        return reverse('service-list')
+    def get_success_url(self,):
+        return reverse('booking-confirmation', kwargs={'pk' : self.object.pk})
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
+
 
         
+class BookingConfirmationDetail(DetailView):
+    model = Appointment
+    template_name = 'bookings/booking_confirmation.html'
+    context_object_name = 'appointment'
