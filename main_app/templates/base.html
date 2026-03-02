@@ -24,6 +24,7 @@
       {% if user.is_authenticated %}
       
         <li><a href="{% url 'service-list' %}"> Services</a></li>
+        <li><a href="{% url 'booking-list' %}">My Bookings</a></li>
         <li><a href="{% url 'about' %}">About</a></li>
         <li>
     <form id="logout-form" method="post" action="{% url 'logout' %}">

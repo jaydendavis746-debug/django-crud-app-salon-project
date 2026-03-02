@@ -119,11 +119,11 @@ class BookingConfirmationDetail(DetailView):
 
 class BookingsList(LoginRequiredMixin, ListView):
     model = Appointment
-    template_name = 'bookings/bookings_list.html'
+    template_name = 'bookings/booking_list.html'
     context_object_name = 'appointments'
 
     def get_queryset(self):
-        return (Appointment.objects.filter(customer=self.request.user).select_related('service', 'stylist', 'availability').order_by('availability_date','availability_time') )
+        return (Appointment.objects.filter(customer=self.request.user).select_related('service', 'stylist', 'availability').order_by('availability__date','availability__time') )
 
 
 

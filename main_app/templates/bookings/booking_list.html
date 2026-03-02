@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>My Bookings</h1>
+
+<ul>
+  {% for appointment in appointments %}
+     <li>
+       <a href="">
+         {{ appointment.service.name }}
+         with {{ appointment.stylist.username }}
+         on {{ appointment.availability.date }}
+         at {{ appointment.availability.time }}
+       </a>
+     </li>
+   {% empty %}
+      <li>You have no bookings.</li>
+    {%endfor %}
+</ul>
+
+
+{% endblock %}
+
+<!-- {% url 'booking_detail' appointment.pk %} -->
