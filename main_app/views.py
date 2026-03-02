@@ -13,7 +13,7 @@ from django.views.generic.edit import CreateView
 from django.contrib.auth.views import LoginView
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
-# from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 class Home(LoginView):
     template_name = 'home.html'
@@ -116,6 +116,14 @@ class BookingConfirmationDetail(DetailView):
     context_object_name = 'appointment'
 
 
+
+class BookingsList(LoginRequiredMixin, ListView):
+    model = Appointment
+    template_name = 'bookings/bookings_list.html'
+    context_object_name = 'appointments'
+
+    def get_queryset(self):
+        return (Appointment.objects.filter(customer=self.request.user).select_related('service', 'stylist', 'availability').order_by('availability_date','availability_time') )
 
 
 
