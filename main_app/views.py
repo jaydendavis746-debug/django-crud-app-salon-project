@@ -9,13 +9,12 @@ from django.contrib.auth.models import User
 
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView
+from django.contrib.auth.views import LoginView
 
 # from django.contrib.auth.mixins import LoginRequiredMixin
 
-
-def home(request):
-
-    return HttpResponse('<h1>Welcome to this salon </h1>')
+class Home(LoginView):
+    template_name = 'home.html'
 
 
 def about(request):

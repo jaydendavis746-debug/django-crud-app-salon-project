@@ -19,12 +19,26 @@
           <img src="" alt="" />
         </a>
       </div>
-      <nav>
-        <ul>
-             <li><a href="/services">All Services</a></li>
-          <li><a href="/about">About</a></li>
-        </ul>
-      </nav>
+  <nav>
+    <ul>
+      {% if user.is_authenticated %}
+      
+        <li><a href="{% url 'service-list' %}"> Services</a></li>
+        <li><a href="{% url 'about' %}">About</a></li>
+        <li>
+    <form id="logout-form" method="post" action="{% url 'logout' %}">
+      {% csrf_token %}
+      <button type="submit">Log out</button>
+    </form>
+  </li>
+      {% else %}
+      <li><a href="{% url 'service-list' %}">Services</a></li>
+        <li><a href="{% url 'about' %}">About</a></li>
+        <li><a href="{% url 'home' %}">Login</a></li>
+      {% endif %}
+    </ul>
+</nav>
+
     </header>
     <main>
      {% block content %} 
