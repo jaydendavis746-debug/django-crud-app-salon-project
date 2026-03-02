@@ -9,8 +9,10 @@ from django.contrib.auth.models import User
 
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView
-from django.contrib.auth.views import LoginView
 
+from django.contrib.auth.views import LoginView
+from django.contrib.auth import login
+from django.contrib.auth.forms import UserCreationForm
 # from django.contrib.auth.mixins import LoginRequiredMixin
 
 class Home(LoginView):
@@ -112,3 +114,22 @@ class BookingConfirmationDetail(DetailView):
     model = Appointment
     template_name = 'bookings/booking_confirmation.html'
     context_object_name = 'appointment'
+
+
+
+
+
+
+def signup(request):
+    error_message = ''
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('service-list')
+        else:
+            error_message = 'Invalid sign up - try again'
+    form = UserCreationForm()
+    context = {'form': form, 'error_message': error_message}
+    return render(request, 'signup.html', context)
