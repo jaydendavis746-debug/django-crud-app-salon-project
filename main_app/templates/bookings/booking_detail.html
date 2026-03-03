@@ -12,8 +12,8 @@
     <p><strong>Created:</strong> {{ booking.created_at|date:"d M Y, H:i" }}</p>
 
     <div class="booking-actions">
-        <a class="btn btn-primary" href="{% url 'edit_booking' booking.id %}">Edit Booking</a>
-        <a class="btn btn-danger" href="{% url 'delete_booking' booking.id %}">Delete Booking</a>
+        <a class="btn btn-primary" href="{% url 'booking-update' booking.id %}">Edit Booking</a>
+        <a class="btn btn-danger" href="{% url 'booking-delete' booking.id %}">Delete Booking</a>
     </div>
 
 </div>

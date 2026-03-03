@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Edit Booked Appointment</h1>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+    <a href="{% url 'appointment_detail' appointment.id %}" class="btn btn-secondary">Cancel</a>
+</form>
+
+{% endblock %}

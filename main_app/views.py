@@ -133,17 +133,17 @@ class BookingDetail(LoginRequiredMixin,UserPassesTestMixin, DetailView):
 
     def test_func(self):
         Booking = self.get_object()
-        return booking.customer == self.request.user
+        return Booking.customer == self.request.user
 
 
 class BookingUpdate(LoginRequiredMixin,UserPassesTestMixin, UpdateView):
     model = Booking
     fields = ['service', 'stylist', 'availability']
-    template_name = 'booking'
+    template_name = 'bookings/booking_update.html'
 
     def test_func(self):
         Booking = self.get_object()
-        return booking.customer == self.request.user
+        return Booking.customer == self.request.user
 
     def form_valid(self, form):
         old_availability = self.get_object().availability
