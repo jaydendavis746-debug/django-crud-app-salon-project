@@ -1,6 +1,6 @@
 
 from django.shortcuts import render, redirect, get_object_or_404
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.http import HttpResponse
 
 from .models import Service, StylistService, Availability, Booking
@@ -8,7 +8,7 @@ from .forms import BookingForm
 from django.contrib.auth.models import User
 
 from django.views.generic import ListView, DetailView
-from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from django.contrib.auth.views import LoginView
 from django.contrib.auth import login
@@ -132,8 +132,8 @@ class BookingDetail(LoginRequiredMixin,UserPassesTestMixin, DetailView):
     context_object_name = 'booking'
 
     def test_func(self):
-        Booking = self.get_object()
-        return Booking.customer == self.request.user
+        booking = self.get_object()
+        return booking.customer == self.request.user
 
 
 class BookingUpdate(LoginRequiredMixin,UserPassesTestMixin, UpdateView):
@@ -142,8 +142,8 @@ class BookingUpdate(LoginRequiredMixin,UserPassesTestMixin, UpdateView):
     template_name = 'bookings/booking_update.html'
 
     def test_func(self):
-        Booking = self.get_object()
-        return Booking.customer == self.request.user
+        booking = self.get_object()
+        return booking.customer == self.request.user
 
     def form_valid(self, form):
         old_availability = self.get_object().availability
@@ -159,9 +159,27 @@ class BookingUpdate(LoginRequiredMixin,UserPassesTestMixin, UpdateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse_;azy('booking-detail', kwargs={'pk': self.objects.pk})
+        return reverse_lazy('booking-detail', kwargs={'pk': self.objects.pk})
 
 
+class BookingDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Booking
+    template_name = 'bookings/booking_confirm_delete.html'
+    context_object_name = 'booking'
+    success_url = reverse_lazy('booking-list')
+
+    def test_func(self):
+        booking = self.get_object()
+        return booking.customer == self.request.user
+
+    def booking_delete(self, requets, *args, **kwargs):
+        booking = self.get_object()
+        availability = booking.availability
+
+        availability.is_booked = False
+        availability.save()
+
+        return super().booking_delete(request, *args, **kwargs)
 
 
 
