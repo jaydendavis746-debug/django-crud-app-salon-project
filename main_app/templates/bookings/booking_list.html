@@ -6,7 +6,7 @@
 <ul>
   {% for appointment in appointments %}
      <li>
-       <a href="">
+       <a href="{% url 'booking-detail' appointment.pk %}">
          {{ appointment.service.name }}
          with {{ appointment.stylist.username }}
          on {{ appointment.availability.date }}
@@ -21,4 +21,3 @@
 
 {% endblock %}
 
-<!-- {% url 'booking-detail' appointment.pk %} -->

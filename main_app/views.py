@@ -13,7 +13,7 @@ from django.views.generic.edit import CreateView
 from django.contrib.auth.views import LoginView
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
 class Home(LoginView):
     template_name = 'home.html'
@@ -78,7 +78,7 @@ class StylistDetail(DetailView):
 class AppointmentCreate(CreateView):
     model = Appointment
     form_class = AppointmentForm
-    template_name = 'bookings/appointment_form.html'
+    template_name = 'bookings/booking_form.html'
 
     def dispatch(self, request,*args, **kwargs):
         self.availability = get_object_or_404(Availability, id=kwargs['availability_id'])
@@ -123,7 +123,19 @@ class BookingsList(LoginRequiredMixin, ListView):
     context_object_name = 'appointments'
 
     def get_queryset(self):
-        return (Appointment.objects.filter(customer=self.request.user).select_related('service', 'stylist', 'availability').order_by('availability__date','availability__time') )
+        return (Appointment.objects.filter(customer=self.request.user).select_related('service', 'stylist', 'availability').order_by('availability__date','availability__time'))
+
+
+class BookingDetail(LoginRequiredMixin,UserPassesTestMixin, DetailView):
+    model = Appointment
+    template_name = 'bookings/booking_detail.html'
+    context_object_name = 'appointment'
+
+    def test_func(self):
+        appointment = self.gte_object()
+        return appointment.user == self.request.user
+
+
 
 
 
