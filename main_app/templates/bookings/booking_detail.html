@@ -6,13 +6,13 @@
     <h1>Booking Details</h1>
 
     <p><strong>Service:</strong> {{ booking.service.name }}</p>
-    <p><strong>Stylist:</strong> {{ booking.stylist.name }}</p>
+    <p><strong>Stylist:</strong> {{ booking.stylist.username }}</p>
     <p><strong>Date:</strong> {{ booking.availability.date }}</p>
-    <p><strong>Time:</strong> {{ booking.availability.start_time }}</p>
+    <p><strong>Time:</strong> {{ booking.availability.time }}</p>
     <p><strong>Created:</strong> {{ booking.created_at|date:"d M Y, H:i" }}</p>
 
     <div class="booking-actions">
-        <a class="btn btn-primary" href="{% url 'booking-update' booking.id %}">Edit Booking</a>
+        <a class="btn btn-primary" href="{% url 'booking-update' booking.id %}">Edit Booking Time</a>
         <a class="btn btn-danger" href="{% url 'booking-delete' booking.id %}">Delete Booking</a>
     </div>
 

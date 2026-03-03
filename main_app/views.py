@@ -138,7 +138,7 @@ class BookingDetail(LoginRequiredMixin,UserPassesTestMixin, DetailView):
 
 class BookingUpdate(LoginRequiredMixin,UserPassesTestMixin, UpdateView):
     model = Booking
-    fields = ['service', 'stylist', 'availability']
+    fields = [ 'availability']
     template_name = 'bookings/booking_update.html'
 
     def test_func(self):
