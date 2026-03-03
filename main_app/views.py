@@ -159,27 +159,40 @@ class BookingUpdate(LoginRequiredMixin,UserPassesTestMixin, UpdateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse_lazy('booking-detail', kwargs={'pk': self.objects.pk})
+        return reverse('booking-detail', kwargs={'pk': self.object.pk})
 
 
 class BookingDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    print("BookingDelete CLASS LOADED")
     model = Booking
     template_name = 'bookings/booking_confirm_delete.html'
     context_object_name = 'booking'
     success_url = reverse_lazy('booking-list')
 
+    def dispatch(self, request, *args, **kwargs):
+        self.booking = self.get_object()
+        self.availability = self.booking.availability
+        return super().dispatch(request, *args, **kwargs)
+
     def test_func(self):
         booking = self.get_object()
+        print("TEST FUNC:", booking.customer, self.request.user)
         return booking.customer == self.request.user
 
-    def booking_delete(self, requets, *args, **kwargs):
-        booking = self.get_object()
-        availability = booking.availability
 
-        availability.is_booked = False
-        availability.save()
+    def post(self, request, *args, **kwargs):
+        print("POST METHOD CALLED")
+        return self.delete(request, *args, **kwargs)
 
-        return super().booking_delete(request, *args, **kwargs)
+    def delete(self, request, *args, **kwargs):
+        print("DELETE METHOD CALLED")
+
+        self.availability.is_booked = False
+        self.availability.save(update_fields=['is_booked'])
+
+        return super().delete(request, *args, **kwargs)
+
+
 
 
 
