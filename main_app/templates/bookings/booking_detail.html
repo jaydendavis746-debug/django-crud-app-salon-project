@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="booking-detail-card">
+
+    <h1>Booking Details</h1>
+
+    <p><strong>Service:</strong> {{ booking.service.name }}</p>
+    <p><strong>Stylist:</strong> {{ booking.stylist.name }}</p>
+    <p><strong>Date:</strong> {{ booking.availability.date }}</p>
+    <p><strong>Time:</strong> {{ booking.availability.start_time }}</p>
+    <p><strong>Created:</strong> {{ booking.created_at|date:"d M Y, H:i" }}</p>
+
+    <div class="booking-actions">
+        <a class="btn btn-primary" href="{% url 'edit_booking' booking.id %}">Edit Booking</a>
+        <a class="btn btn-danger" href="{% url 'delete_booking' booking.id %}">Delete Booking</a>
+    </div>
+
+</div>
+
+{% endblock %}
