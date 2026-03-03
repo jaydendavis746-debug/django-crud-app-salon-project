@@ -132,8 +132,8 @@ class BookingDetail(LoginRequiredMixin,UserPassesTestMixin, DetailView):
     context_object_name = 'appointment'
 
     def test_func(self):
-        appointment = self.gte_object()
-        return appointment.user == self.request.user
+        appointment = self.get_object()
+        return appointment.customer == self.request.user
 
 
 
