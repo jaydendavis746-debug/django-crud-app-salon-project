@@ -33,7 +33,7 @@ class Availability(models.Model):
         return f"{self.stylist.username} - {self.date} {self.time}"
 
 
-class Appointment(models.Model):
+class Booking(models.Model):
     customer = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     guest_name = models.CharField(max_length=100, blank=True)
     guest_email = models.EmailField(blank=True)

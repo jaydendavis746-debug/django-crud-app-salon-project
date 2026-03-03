@@ -2,24 +2,24 @@
 {% block content %}
 
 <h1>Booking Confirmed 🎉</h1>
-<p> <strong>Service:</strong> {{ appointment.service.name }} </p>
+<p> <strong>Service:</strong> {{ booking.service.name }} </p>
 
-<p> <strong>Stylist:</strong> {{ appointment.stylist.username }} </p>
+<p> <strong>Stylist:</strong> {{ booking.stylist.username }} </p>
 
-<p> <strong>Date:</strong> {{ appointment.availability.date }} </p>
+<p> <strong>Date:</strong> {{ booking.availability.date }} </p>
 
-<p> <strong>Time:</strong> {{ appointment.availability.time }} </p>
+<p> <strong>Time:</strong> {{ booking.availability.time }} </p>
 
 <p>
 <strong>Booked for:</strong>
-{% if appointment.customer %}
-    {{ appointment.customer.username }}
+{% if booking.customer %}
+    {{ booking.customer.username }}
 {% else %}
-    {{ appointment.guest_name }}
+    {{ booking.guest_name }}
 {% endif %}
 </p>
 
-<a href="{% url 'service-list' %}">Book another appointment</a>
+<a href="{% url 'service-list' %}">Make another Booking?</a>
 
 
 {% endblock %}

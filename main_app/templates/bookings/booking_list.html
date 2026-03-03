@@ -4,13 +4,13 @@
 <h1>My Bookings</h1>
 
 <ul>
-  {% for appointment in appointments %}
+  {% for booking in bookings %}
      <li>
-       <a href="{% url 'booking-detail' appointment.pk %}">
-         {{ appointment.service.name }}
-         with {{ appointment.stylist.username }}
-         on {{ appointment.availability.date }}
-         at {{ appointment.availability.time }}
+       <a href="{% url 'booking-detail' booking.pk %}">
+         {{ booking.service.name }}
+         with {{ booking.stylist.username }}
+         on {{ booking.availability.date }}
+         at {{ booking.availability.time }}
        </a>
      </li>
    {% empty %}

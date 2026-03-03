@@ -1,10 +1,10 @@
 from django import forms
-from .models import Appointment
+from .models import Booking
 
 
-class AppointmentForm(forms.ModelForm):
+class BookingForm(forms.ModelForm):
     class Meta:
-        model = Appointment
+        model = Booking
         fields = ['guest_name', 'guest_email']
 
     def __init__(self, *args, **kwargs):

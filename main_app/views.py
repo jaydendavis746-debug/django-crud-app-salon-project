@@ -3,12 +3,12 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.http import HttpResponse
 
-from .models import Service, StylistService, Availability, Appointment
-from .forms import AppointmentForm
+from .models import Service, StylistService, Availability, Booking
+from .forms import BookingForm
 from django.contrib.auth.models import User
 
 from django.views.generic import ListView, DetailView
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView
 
 from django.contrib.auth.views import LoginView
 from django.contrib.auth import login
@@ -75,9 +75,9 @@ class StylistDetail(DetailView):
 
         return context
 
-class AppointmentCreate(CreateView):
-    model = Appointment
-    form_class = AppointmentForm
+class BookingCreate(CreateView):
+    model = Booking
+    form_class = BookingForm
     template_name = 'bookings/booking_form.html'
 
     def dispatch(self, request,*args, **kwargs):
@@ -111,32 +111,35 @@ class AppointmentCreate(CreateView):
 
         
 class BookingConfirmationDetail(DetailView):
-    model = Appointment
+    model = Booking
     template_name = 'bookings/booking_confirmation.html'
-    context_object_name = 'appointment'
+    context_object_name = 'booking'
 
 
 
 class BookingsList(LoginRequiredMixin, ListView):
-    model = Appointment
+    model = Booking
     template_name = 'bookings/booking_list.html'
-    context_object_name = 'appointments'
+    context_object_name = 'bookings'
 
     def get_queryset(self):
-        return (Appointment.objects.filter(customer=self.request.user).select_related('service', 'stylist', 'availability').order_by('availability__date','availability__time'))
+        return (Booking.objects.filter(customer=self.request.user).select_related('service', 'stylist', 'availability').order_by('availability__date','availability__time'))
 
 
 class BookingDetail(LoginRequiredMixin,UserPassesTestMixin, DetailView):
-    model = Appointment
+    model = Booking
     template_name = 'bookings/booking_detail.html'
-    context_object_name = 'appointment'
+    context_object_name = 'booking'
 
     def test_func(self):
-        appointment = self.get_object()
-        return appointment.customer == self.request.user
+        Booking = self.get_object()
+        return Booking.customer == self.request.user
 
 
-
+class BookingUpdate(LoginRequiredMixin,UserPassesTestMixin, UpdateView):
+    model = Booking
+    fields = ['service', 'stylist', 'availability']
+    template_name = 'booking'
 
 
 
