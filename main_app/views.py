@@ -133,13 +133,35 @@ class BookingDetail(LoginRequiredMixin,UserPassesTestMixin, DetailView):
 
     def test_func(self):
         Booking = self.get_object()
-        return Booking.customer == self.request.user
+        return booking.customer == self.request.user
 
 
 class BookingUpdate(LoginRequiredMixin,UserPassesTestMixin, UpdateView):
     model = Booking
     fields = ['service', 'stylist', 'availability']
     template_name = 'booking'
+
+    def test_func(self):
+        Booking = self.get_object()
+        return booking.customer == self.request.user
+
+    def form_valid(self, form):
+        old_availability = self.get_object().availability
+        new_availability = form.cleaned_data['availability']
+
+        if old_availability != new_availability:
+            old_availability.is_booked = False
+            old_availability.save()
+
+            new_availability.is_booked = True
+            new_availability.save()
+
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_;azy('booking-detail', kwargs={'pk': self.objects.pk})
+
+
 
 
 
