@@ -90,6 +90,8 @@ class BookingCreate(CreateView):
     def dispatch(self, request,*args, **kwargs):
         self.availability = get_object_or_404(Availability, id=kwargs['availability_id'])
         self.service = get_object_or_404(Service, id=kwargs['service_id'])
+        if not StylistService.objects.filter( stylist=self.availability.stylist, service=self.service ).exists():
+            return invalid_page(request)
 
         return super().dispatch(request,*args, **kwargs)
 
@@ -162,6 +164,18 @@ class BookingDetail(LoginRequiredMixin,UserPassesTestMixin, DetailView):
     template_name = 'bookings/booking_detail.html'
     context_object_name = 'booking'
 
+    def dispatch(self, request, *args, **kwargs): 
+        booking = self.get_object()
+
+        if not StylistService.objects.filter(
+            stylist=booking.availability.stylist,
+            service=booking.service
+        ).exists():
+            return invalid_page(request)
+
+        return super().dispatch(request, *args, **kwargs)
+
+
     def test_func(self):
         booking = self.get_object()
         return booking.customer == self.request.user
@@ -171,6 +185,14 @@ class BookingUpdate(LoginRequiredMixin,UserPassesTestMixin, UpdateView):
     model = Booking
     fields = [ 'availability']
     template_name = 'bookings/booking_update.html'
+    
+    def dispatch(self, request,*args, **kwargs):
+        booking = self.get_object()
+        if not StylistService.objects.filter( stylist=self.availability.stylist, service=self.service ).exists():
+            return invalid_page(request)
+        
+        return super().dispatch(request,*args, **kwargs)
+
 
     def test_func(self):
         booking = self.get_object()
@@ -218,7 +240,6 @@ class BookingUpdate(LoginRequiredMixin,UserPassesTestMixin, UpdateView):
 
 
 class BookingDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
-    print("BookingDelete CLASS LOADED")
     model = Booking
     template_name = 'bookings/booking_confirm_delete.html'
     context_object_name = 'booking'
@@ -237,10 +258,8 @@ class BookingDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def post(self, request, *args, **kwargs):
         print("POST METHOD CALLED")
-        return self.delete(request, *args, **kwargs)
 
     def delete(self, request, *args, **kwargs):
-        print("DELETE METHOD CALLED")
 
         self.availability.is_booked = False
         self.availability.save(update_fields=['is_booked'])
