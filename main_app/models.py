@@ -46,3 +46,8 @@ class Booking(models.Model):
         if self.customer:
             return f'{self.customer.username} - {self.service.name}'
         return f'{self.guest_name} - {self.service.name}'
+
+
+class StylistProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    bio = models.TextField(blank=True)
