@@ -167,11 +167,11 @@ class BookingDetail(LoginRequiredMixin,UserPassesTestMixin, DetailView):
     def dispatch(self, request, *args, **kwargs): 
         booking = self.get_object()
 
-        if not StylistService.objects.filter(
-            stylist=booking.availability.stylist,
-            service=booking.service
-        ).exists():
-            return invalid_page(request)
+        # if not StylistService.objects.filter(
+        #     stylist=booking.availability.stylist,
+        #     service=booking.service
+        # ).exists():
+        #     return invalid_page(request)
 
         return super().dispatch(request, *args, **kwargs)
 
@@ -188,8 +188,6 @@ class BookingUpdate(LoginRequiredMixin,UserPassesTestMixin, UpdateView):
     
     def dispatch(self, request,*args, **kwargs):
         booking = self.get_object()
-        if not StylistService.objects.filter( stylist=self.availability.stylist, service=self.service ).exists():
-            return invalid_page(request)
         
         return super().dispatch(request,*args, **kwargs)
 
@@ -201,13 +199,13 @@ class BookingUpdate(LoginRequiredMixin,UserPassesTestMixin, UpdateView):
     def form_valid(self, form):
         old_availability = self.get_object().availability
         new_availability = form.cleaned_data['availability']
-
+        booking = self.get_object()
         
         if new_availability.date < timezone.now().date():
             form.add_error(None, 'You cannot book a past date.')
             return self.form_invalid(form)
 
-        if not StylistService.objects.filter(stylist = self.availability.stylist, service = self.service).exists():
+        if not StylistService.objects.filter(stylist = booking.availability.stylist, service = booking.service).exists():
             form.add_error(None,'This stylist does not offer this service.')
             return self.form_invalid(form)
 
@@ -257,12 +255,13 @@ class BookingDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def post(self, request, *args, **kwargs):
         print("POST METHOD CALLED")
+        return self.delete(request, *args, **kwargs)
 
     def delete(self, request, *args, **kwargs):
 
         self.availability.is_booked = False
         self.availability.save(update_fields=['is_booked'])
-
+        print("DELETE METHOD CALLED")
         return super().delete(request, *args, **kwargs)
 
 
