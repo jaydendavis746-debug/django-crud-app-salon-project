@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Invalid Request</h2>
+    <p>The  link you followed is not valid or the flow was interrupted.</p>
+    <a href="{% url 'stylist-list' %}" class="btn btn-primary mt-3">Return to Stylists</a>
+</div>
+{% endblock %}
