@@ -177,12 +177,36 @@ class BookingUpdate(LoginRequiredMixin,UserPassesTestMixin, UpdateView):
         old_availability = self.get_object().availability
         new_availability = form.cleaned_data['availability']
 
+        
+        if new_availability.date < timezone.now().date():
+            form.add_error(None, 'You cannot book a past date.')
+            return self.form_invalid(form)
+
+        if not StylistService.objects.filter(stylist = self.availability.stylist, service = self.service).exists():
+            form.add_error(None,'This stylist does not offer this service.')
+            return self.form_invalid(form)
+
+
+        if new_availability.is_booked and new_availability != old_availability:
+            form.add_error(None, 'This slot has already been booked.')
+            return self.form_invalid(form)
+
+
+            overlap = Booking.objects.filter(
+                customer = self.request.user, 
+                availability__date=new_availability.date, 
+                availability__time = new_availability.time
+                ).exclude(id=booking.id).exists()
+            if overlap:
+                form.add_error(None, 'You already have a booking at this time.')
+                return self.form_invalid(form)
+
         if old_availability != new_availability:
             old_availability.is_booked = False
-            old_availability.save()
+            old_availability.save(update_fields=['is_booked'])
 
             new_availability.is_booked = True
-            new_availability.save()
+            new_availability.save(update_fields=['is_booked'])
 
         return super().form_valid(form)
 
