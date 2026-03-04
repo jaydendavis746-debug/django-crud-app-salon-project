@@ -87,8 +87,8 @@ class BookingCreate(CreateView):
     def dispatch(self, request,*args, **kwargs):
         self.availability = get_object_or_404(Availability, id=kwargs['availability_id'])
         self.service = get_object_or_404(Service, id=kwargs['service_id'])
-        # if self .availability.is_booked:
-        #     return redirect('stylist-detail', pk=self.availability.stylist.id)
+        if self .availability.is_booked:
+            return redirect('stylist-detail', pk=self.availability.stylist.id)
 
         return super().dispatch(request,*args, **kwargs)
 
