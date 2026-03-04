@@ -19,6 +19,9 @@ from django.utils import timezone
 from django.core.exceptions import ValidationError 
 from datetime import datetime, timedelta
 
+def invalid_page(request):
+    return render(request, "invalid.html", status=400)
+
 class Home(LoginView):
     template_name = 'home.html'
 
