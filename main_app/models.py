@@ -51,3 +51,11 @@ class Booking(models.Model):
 class StylistProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.TextField(blank=True)
+    instagram = models.URLField(blank=True)
+    facebook = models.URLField(blank=True)
+    other = models.URLField(blank=True)
+    profile_picture = models.ImageField(upload_to='stylist_pics/', blank=True, null=True)
+    specialties = models.CharField(max_length=255, blank=True)
+
+    def __str__(self):
+        return f"{self.user.username}'s Profile"

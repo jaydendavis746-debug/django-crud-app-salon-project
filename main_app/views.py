@@ -252,7 +252,6 @@ class BookingDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def test_func(self):
         booking = self.get_object()
-        print("TEST FUNC:", booking.customer, self.request.user)
         return booking.customer == self.request.user
 
 
