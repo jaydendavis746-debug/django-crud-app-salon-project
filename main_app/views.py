@@ -15,6 +15,10 @@ from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
+from django.utils import timezone
+from django.core.exceptions import ValidationError 
+from datetime import datetime, timedelta
+
 class Home(LoginView):
     template_name = 'home.html'
 
@@ -83,8 +87,8 @@ class BookingCreate(CreateView):
     def dispatch(self, request,*args, **kwargs):
         self.availability = get_object_or_404(Availability, id=kwargs['availability_id'])
         self.service = get_object_or_404(Service, id=kwargs['service_id'])
-        if self .availability.is_booked:
-            return redirect('stylist-detail', pk=self.availability.stylist.id)
+        # if self .availability.is_booked:
+        #     return redirect('stylist-detail', pk=self.availability.stylist.id)
 
         return super().dispatch(request,*args, **kwargs)
 
@@ -95,8 +99,34 @@ class BookingCreate(CreateView):
         if self.request.user.is_authenticated:
             form.instance.customer = self.request.user
 
+        if self.availability.date < timezone.now().date():
+            form.add_error(None, 'You cannot book a past date.')
+            return self.form_invalid(form)
+
+        if not StylistService.objects.filter(stylist = self.availability.stylist, service = self.service).exists():
+            form.add_error(None,'This stylist does not offer this service.')
+            return self.form_invalid(form)
+
+
+        if self.availability.is_booked:
+            form.add_error(None, 'This slot has just been booked by someone else.')
+            return self.form_invalid(form)
+
+        if self.request.user.is_authenticated:
+            start_dt = datetime.combine(self.availability.date, self.availability.time)
+            end_dt = start_dt + timedelta(minutes = self.service.duration)
+
+            overlap = Booking.objects.filter(
+                customer = self.request.user, 
+                availability__date=self.availability.date, 
+                availability__time = self.availability.time
+                ).exists()
+            if overlap:
+                form.add_error(None, 'You already have a booking at this time.')
+                return self.form_invalid(form)
+
         self.availability.is_booked=True
-        self.availability.save()
+        self.availability.save(update_fields=['is_booked'])
         return super().form_valid(form)
 
     def get_success_url(self,):
