@@ -34,6 +34,12 @@ class ServiceList(ListView):
     template_name = 'services/service_list.html'
     context_object_name = 'services'
 
+    def get_queryset(self):
+        return(Service.objects.annotate(
+            min_price=Min('stylistservice__price'),
+            max_price=  Max('stylistservice__price')
+        ))
+
 
 class ServiceDetail(DetailView):
     model = Service
