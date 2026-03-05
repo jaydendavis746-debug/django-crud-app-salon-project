@@ -1,7 +1,7 @@
 
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse, reverse_lazy
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 
 from .models import Service, StylistService, Availability, Booking
 from .forms import BookingForm
@@ -22,6 +22,17 @@ from django.db.models import Min, Max
 
 def invalid_page(request):
     return render(request, "invalid.html", status=400)
+
+
+def get_times_for_date(request, stylist_id):
+    date = request.GET.get('date')
+
+    times = Availability.objects.filter(
+        stylist_id = stylist_id,
+        date = date
+    ).order_by('time').values_list('id', 'time')
+
+    return JsonResponse(list(times), safe=False)
 
 class Home(LoginView):
     template_name = 'home.html'
@@ -212,6 +223,19 @@ class BookingUpdate(LoginRequiredMixin,UserPassesTestMixin, UpdateView):
     model = Booking
     fields = [ 'availability']
     template_name = 'bookings/booking_update.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        booking = self.get_object()
+
+        context['available_dates']= (
+            Availability.objects.filter(stylist=booking.stylist)
+            .order_by('date')
+            .values_list('date', flat=True)
+            .distinct()
+        )
+
+        return context
     
     def get_form(self, form_class=None):
         form = super().get_form(form_class)
@@ -297,7 +321,6 @@ class BookingDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         self.availability.save(update_fields=['is_booked'])
         print("DELETE METHOD CALLED")
         return super().delete(request, *args, **kwargs)
-
 
 
 

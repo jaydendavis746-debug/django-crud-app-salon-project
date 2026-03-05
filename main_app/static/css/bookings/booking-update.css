@@ -1,0 +1,112 @@
+.booking-update-page {
+  padding: var(--space-6) 0;
+  display: flex;
+  justify-content: center;
+}
+
+.booking-update-card {
+  background: var(--color-white);
+  padding: var(--space-6);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-medium);
+  width: min(600px, 100%);
+}
+
+.booking-update-card h1 {
+  font-size: var(--font-size-xl);
+  margin-bottom: var(--space-5);
+  text-align: center;
+}
+
+
+.summary-section {
+  margin-bottom: var(--space-6);
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: var(--space-3);
+  font-size: 1.05rem;
+}
+
+.detail-row strong {
+  color: var(--color-text);
+}
+
+.detail-row span {
+  color: var(--color-text-light);
+}
+
+
+.update-form .form-group {
+  margin-bottom: var(--space-5);
+}
+
+.update-form label {
+  display: block;
+  margin-bottom: var(--space-2);
+  font-weight: 600;
+}
+
+.update-form select,
+.update-form input {
+  width: 100%;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  font-size: 1rem;
+  background: var(--color-white);
+}
+
+.update-form select:focus,
+.update-form input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(212,163,115,0.2);
+}
+
+
+.btn {
+  display: inline-block;
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-primary);
+  color: var(--color-white);
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.btn:hover {
+  background: var(--color-primary-dark);
+}
+
+.btn-outline {
+  display: inline-block;
+  padding: var(--space-2) var(--space-4);
+  border: 2px solid var(--color-primary);
+  color: var(--color-primary);
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.btn-outline:hover {
+  background: var(--color-primary);
+  color: var(--color-white);
+}
+
+
+.back-link {
+  display: inline-block;
+  margin-top: var(--space-5);
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
