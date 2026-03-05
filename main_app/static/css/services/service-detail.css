@@ -1,0 +1,92 @@
+.service-detail-page {
+  padding: var(--space-6) 0;
+}
+
+.service-header {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-6);
+  align-items: center;
+  margin-bottom: var(--space-7);
+}
+
+.service-header h1 {
+  font-size: var(--font-size-xxl);
+  margin-bottom: var(--space-3);
+}
+
+.service-meta {
+  font-size: 1.1rem;
+  color: var(--color-text-light);
+  margin-bottom: var(--space-4);
+}
+
+.service-meta span {
+  margin-right: var(--space-4);
+}
+
+
+.service-image-placeholder {
+  background: var(--color-secondary);
+  border-radius: var(--radius-lg);
+  height: 260px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-light);
+  font-size: 1.1rem;
+}
+
+
+.description-section {
+  margin-bottom: var(--space-7);
+}
+
+.description-section h2 {
+  font-size: var(--font-size-xl);
+  margin-bottom: var(--space-3);
+}
+
+
+.stylist-list {
+  margin-bottom: var(--space-7);
+}
+
+.stylist-list h2 {
+  font-size: var(--font-size-xl);
+  margin-bottom: var(--space-4);
+}
+
+.stylist-card {
+  background: var(--color-white);
+  padding: var(--space-4);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+  margin-bottom: var(--space-4);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.stylist-card .info span {
+  color: var(--color-text-light);
+  font-size: 0.95rem;
+}
+
+
+.cta-section {
+  text-align: center;
+  margin-top: var(--space-7);
+}
+
+
+.back-link {
+  display: inline-block;
+  margin-top: var(--space-5);
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
