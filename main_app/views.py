@@ -177,6 +177,20 @@ class BookingDetail(LoginRequiredMixin,UserPassesTestMixin, DetailView):
     template_name = 'bookings/booking_detail.html'
     context_object_name = 'booking'
 
+def get_context_data(self, **kwargs):
+    context = super().get_context_data(**kwargs)
+    booking = self.get_object()
+
+    stylist_service = StylistService.objects.get(
+        stylist = booking.stylist,
+        service = booking.service
+    )
+
+    context['price'] = stylist_service.price
+    return context
+
+
+
     def dispatch(self, request, *args, **kwargs): 
         booking = self.get_object()
 
