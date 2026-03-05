@@ -1,18 +1,52 @@
 {% extends 'base.html' %}
+{% load static %} 
+{% block head %} 
+<link rel="stylesheet" href="{% static 'css/service-list.css' %}"> 
+{% endblock %}
+
 {% block content %}
+<div class="container services-page">
 
-<h1>Our Services</h1>
+    <h1>Our Services</h1>
+    <h2>Discover all the beauty and grooming services we offer </h2>
 
-<ul>
-{% for service in services %}
-    <li>
-        <a href="{% url 'service-detail' service.id %}"> {{service.name}} </a>
-        <p>Duration: {{service.duration}} minutes </p>
-    </li>
 
-    {% empty  %}
-    <li>No services available</li>
-{% endfor %}
-</ul>
+    <div class="search-filter-bar"> 
+         <select> 
+            <option>Price Range</option>
+            <option>£0 - £20</option>
+            <option>£20 - £50</option>
+            <option>£50+</option>
+         </select> 
+         <select>
+            <option>Duration</option>
+            <option>0 - 30 min</option>
+            <option>30 - 60 min</option>
+            <option>60+ min</option>
+        </select> 
+    </div>
 
+    <div class="service-grid"> 
+        {% for service in services %} 
+            <div class="service-card"> 
+                <h3>{{ service.name }}</h3> 
+                <p>{{ service.description|default:"A great service for you." }}</p> 
+
+                <div class="service-meta"> 
+                    <span>£{{ service.price }}</span>
+                    <span>{{ service.duration }} min</span> 
+                </div> 
+                <a href="{% url 'service-detail' service.id %}" class="btn">View Details</a> 
+            </div>
+        {% empty %} 
+            <p>No services available.</p> 
+        {% endfor %} 
+    </div>
+
+    <div class="cta-section"> 
+        <h3>Not sure which service is right for you?</h3> 
+        <a href="#" class="btn">Talk to a Stylist</a> 
+    </div>
+
+</div>
 {% endblock %}
