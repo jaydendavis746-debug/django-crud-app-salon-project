@@ -82,15 +82,16 @@
   justify-content: center;
 }
 
+
+
 .login-card {
-  background: var(--color-white);
+  backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.4);
   padding: var(--space-6);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-medium);
-  width: 100%;
-  max-width: 420px;
-  text-align: left;
 }
+
 
 .login-card:hover {
   box-shadow: 0 8px 24px rgba(212,163,115,0.25);
@@ -125,7 +126,7 @@
   box-shadow: 0 0 0 2px rgba(212,163,115,0.2);
 }
 
-/* Login button */
+
 .login-card .submit {
   width: 100%;
   margin-top: var(--space-4);
