@@ -194,11 +194,11 @@ class BookingDetail(LoginRequiredMixin,UserPassesTestMixin, DetailView):
     def dispatch(self, request, *args, **kwargs): 
         booking = self.get_object()
 
-        # if not StylistService.objects.filter(
-        #     stylist=booking.availability.stylist,
-        #     service=booking.service
-        # ).exists():
-        #     return invalid_page(request)
+        if not StylistService.objects.filter(
+            stylist=booking.availability.stylist,
+            service=booking.service
+        ).exists():
+            return invalid_page(request)
 
         return super().dispatch(request, *args, **kwargs)
 
@@ -213,10 +213,17 @@ class BookingUpdate(LoginRequiredMixin,UserPassesTestMixin, UpdateView):
     fields = [ 'availability']
     template_name = 'bookings/booking_update.html'
     
-    def dispatch(self, request,*args, **kwargs):
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+
         booking = self.get_object()
-        
-        return super().dispatch(request,*args, **kwargs)
+
+        form.fields['availability'].queryset= Availability.objects.filter(
+            stylist = booking.stylist,
+            date__gte=booking.created_at.date()
+        ).order_by('date', 'time')
+
+        return form
 
 
     def test_func(self):
