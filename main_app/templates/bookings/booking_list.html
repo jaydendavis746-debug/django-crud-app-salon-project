@@ -1,23 +1,39 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/bookings/booking-list.css' %}">
+{% endblock %}
+
 {% block content %}
 
-<h1>My Bookings</h1>
+<div class="container booking-list-page">
 
-<ul>
-  {% for booking in bookings %}
-     <li>
-       <a href="{% url 'booking-detail' booking.pk %}">
-         {{ booking.service.name }}
-         with {{ booking.stylist.username }}
-         on {{ booking.availability.date }}
-         at {{ booking.availability.time }}
-       </a>
-     </li>
-   {% empty %}
-      <li>You have no bookings.</li>
-    {%endfor %}
-</ul>
+  <h1>My Bookings</h1>
 
+  {%if bookings %}
+    <div class="booking-grid">
+      {% for booking in bookings %}
+        <div class="booking-card">
+          <div class="info">
+            <h3>{{booking.service.name}} </h3>
+            <span class="stylist" > With {{booking.stylist.username}} </span>
+            <div class="meta">
+                <span> {{booking.availablility.date}} </span>
+                <span>{{booking.availablility.time}} </span>
+            </div>
+          </div>
 
+          <div class="actions">
+              <a href="{% url 'booking-detail' booking.pk %}" class="btn-outline">View</a>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p>You have no bookings.</p>
+  {% endif %}
+
+</div>
 {% endblock %}
 
