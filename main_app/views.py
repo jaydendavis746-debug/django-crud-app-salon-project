@@ -47,6 +47,12 @@ class ServiceDetail(DetailView):
     template_name = 'services/service_detail.html'
     context_object_name = 'service'
 
+    def get_queryset(self):
+        return(Service.objects.annotate(
+            min_price=Min('stylistservice__price'),
+            max_price=  Max('stylistservice__price')
+        ))
+
     def get_context_data(self, **kwargs):
 
         context = super().get_context_data(**kwargs)

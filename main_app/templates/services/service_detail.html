@@ -1,34 +1,60 @@
 {% extends 'base.html' %}
+{% load static %} 
+
+{% block head %} 
+    <link rel="stylesheet" href="{% static 'css/services/service-detail.css' %}">
+{% endblock %}
 {% block content %}
-<main>
-    <section class="service-details" >
+    <div class="container service-detail-page">
 
-    <h1>{{service.name}} </h1>
+        <section class="service-header" >
+            <div class="service-info">
+                <h1>{{service.name}} </h1>
+            
+                <div class="service-meta"> 
+                  {% if service.min_price and service.max_price and service.min_price != service.max_price %} 
+                    <span> £{{ service.min_price }} - £{{service.max_price}} </span>
+                  {% elif service.min_price and service.max_price and service.min_price == service.max_price %}
+                    <span> £{{ service.min_price }}</span>  
+                  {% else %} 
+                    <span>Pricing varies</span>
+                  {% endif %}  
+                    <span>{{ service.duration }} min</span> 
+                </div> 
+                <a href="#stylists" class="btn">Book This Service</a>
+            </div>
+            <div class="service-image-placeholder"> Service Image </div>
 
-    <p>Duration: {{service.duration}} minutes </p>
+        </section>
 
+        <section class="description-section">
+            <h2>Full Description</h2>
+            <p><p>{{ service.description }}</p></p>
+        </section>
 
-    </section>
+        <section id="stylists" class="stylist-list">
 
-    <section class="stylist-details">
+            <h2>Stylist offering this service </h2>
 
-        <h2>Stylist offering this service </h2>
+            {% if stylist_services %} 
+                {% for item in stylist_services %} 
+                    <div class="stylist-card"> 
+                        <div class="info"> 
+                            <strong>{{ item.stylist.username }}</strong> 
+                            <span>£{{ item.price }}</span> 
+                        </div> 
+                        <a href="{% url 'stylist-detail' item.stylist.id %}" class="btn-outline"> View Profile </a>
+                     </div> 
+                {% endfor %} 
+            {% else %} 
+                <p>No stylist offers this service yet.</p> 
+            {% endif %}
+        </section>
 
-        <ul>
-            {% for item in stylist_services %}
-                <li>
-                    <a href="{% url 'stylist-detail' item.stylist.id %}">
-                        {{item.stylist.username}}
-                    </a>
-                    - £{{item.price}}
-                </li>
+        <div class="cta-section">
+            <a href="#stylists" class="btn">Book This Service</a>
+        </div>
 
-                {% empty %}
-
-                <li>No stylist offer this service yet.</li>
-            {% endfor %}
-        </ul>
-    </section>
-    <a href="{% url 'service-list' %}">Back to services</a>
-</main>
+        <a href="{% url 'service-list' %}">Back to services</a>
+    </div>    
 {% endblock %}
