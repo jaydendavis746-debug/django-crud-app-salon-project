@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %} 
 {% block head %} 
-<link rel="stylesheet" href="{% static 'css/service-list.css' %}"> 
+<link rel="stylesheet" href="{% static 'css/services/service-list.css' %}"> 
 {% endblock %}
 
 {% block content %}
@@ -29,14 +29,22 @@
     <div class="service-grid"> 
         {% for service in services %} 
             <div class="service-card"> 
+
                 <h3>{{ service.name }}</h3> 
                 <p>{{ service.description|default:"A great service for you." }}</p> 
 
                 <div class="service-meta"> 
-                    <span>£{{ service.price }}</span>
+                  {% if service.min_price and service.max_price and service.min_price != service.max_price %} 
+                    <span> £{{ service.min_price }} - £{{service.max_price}} </span>
+                  {% elif service.min_price and service.max_price and service.min_price == service.max_price %}
+                    <span> £{{ service.min_price }}</span>  
+                  {% else %} 
+                    <span>Pricing varies</span>
+                  {% endif %}  
                     <span>{{ service.duration }} min</span> 
                 </div> 
                 <a href="{% url 'service-detail' service.id %}" class="btn">View Details</a> 
+                
             </div>
         {% empty %} 
             <p>No services available.</p> 
