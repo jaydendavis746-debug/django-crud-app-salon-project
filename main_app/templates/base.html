@@ -8,43 +8,54 @@
     <link rel="stylesheet" href="{% static 'css/base.css' %}" />
     <link rel="shortcut icon" type="image/png" href="" />
 
-    <title>Salon</title>
+    <title>FIRSTLOOK</title>
     {% block head %} 
     {% endblock %}
   </head>
   <body>
-    <header>
-      <div class="header-logo-container">
-        <a href="/">
-          <img src="" alt="LOGO" />
-        </a>
-      </div>
-  <nav>
-    <ul>
-      {% if user.is_authenticated %}
-      
-        <li><a href="{% url 'service-list' %}"> Services</a></li>
-        <li><a href="{% url 'booking-list' %}">My Bookings</a></li>
-        <li><a href="{% url 'about' %}">About</a></li>
-        <li>
-    <form id="logout-form" method="post" action="{% url 'logout' %}">
-      {% csrf_token %}
-      <button type="submit">Log out</button>
-    </form>
-  </li>
-      {% else %}
-      <li><a href="{% url 'service-list' %}">Services</a></li>
-        <li><a href="{% url 'about' %}">About</a></li>
-        <li><a href="{% url 'home' %}">Login</a></li>
-        <li><a href="{% url 'signup' %}">Sign Up</a></li>
-      {% endif %}
-    </ul>
-</nav>
+     <header>
+      <button class="nav-toggle" id="navToggle">☰</button>
 
+      <nav id="navbar">
+        <ul>
+          <li class="nav-logo">
+            <a href="/">FIRST<span>LOOK</span></a>
+          </li>
+
+          {% if user.is_authenticated %}
+            <li><a href="{% url 'service-list' %}">Services</a></li>
+            <li><a href="{% url 'booking-list' %}">My Bookings</a></li>
+            <li><a href="{% url 'about' %}">About</a></li>
+            <li>
+              <form id="logout-form" method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit">Log out</button>
+              </form>
+            </li>
+          {% else %}
+            <li><a href="{% url 'service-list' %}">Services</a></li>
+            <li><a href="{% url 'about' %}">About</a></li>
+            <li><a href="{% url 'home' %}">Login</a></li>
+            <li><a href="{% url 'signup' %}">Sign Up</a></li>
+          {% endif %}
+        </ul>
+      </nav>
     </header>
+
+
     <main class="container">
      {% block content %} 
      {% endblock %}
-     </main>
+    </main>
+
+    <script>
+  const navToggle = document.getElementById("navToggle");
+  const navbar = document.getElementById("navbar");
+
+  navToggle.addEventListener("click", () => {
+    navbar.classList.toggle("open");
+  });
+</script>
+
   </body>
 </html>

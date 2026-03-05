@@ -1,18 +1,23 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
 
-<h1>Welcome to the Salon</h1>
+<div class="home-container">
 
-{% if not user.is_authenticated %}
-  <section>
-    <form action="{% url 'home' %}" method="post" class="login">
-      <h1>Login</h1>
-      {% csrf_token %} {{ form.as_p }}
-      <input type="hidden" name="next" value="{{ next }}" />
-      <button type="submit" class="btn submit">Login</button>
-    </form>
-  </section>
-{% endif %}
+  <h1 class="home-title">Welcome to FirstLook</h1>
 
+  {% if not user.is_authenticated %}
+    <section class="login-section">
+      <form action="{% url 'home' %}" method="post" class="login-card">
+        <h2 class="login-title">Login</h2>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="hidden" name="next" value="{{ next }}" />
+        <button type="submit" class="btn submit">Login</button>
+      </form>
+    </section>
+  {% endif %}
+
+</div>
 
 {% endblock %}
