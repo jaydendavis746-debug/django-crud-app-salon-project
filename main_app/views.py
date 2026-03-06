@@ -355,16 +355,17 @@ class StylistTemplate(StylistRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        stylist_user = self.request.user
-        stylist_profile = getattr(stylist_user, 'stylistprofile', None)
 
-        upcoming = Booking.objects.filter(
-            stylist = stylist_user,
-            availability__date__gte=timezone.now().date()
-        ).order_by('availability__date', 'availability__time')
+        today = timezone.localdate()
+        stylist = self.request.user
 
-        context['stylist'] = stylist_profile
-        context['upcoming'] = upcoming
+        todays_bookings = Booking.objects.filter(
+            stylist = stylist,
+            availability__date=today
+        ).select_related('availability', 'service').order_by( 'availability__time')
+
+        context['todays_bookings'] = todays_bookings
+        context['today'] = today
         return context
 
 
@@ -396,6 +397,26 @@ class StylistProfileView(StylistRequiredMixin, UserPassesTestMixin, View):
             'user_form': user_form,
             'profile_form': profile_form,
         })
+
+class StylistBookingList(StylistRequiredMixin, ListView):
+    model = Booking
+    template_name = "stylists/bookings/booking_list.html"
+    context_object_name = "bookings"
+
+    def get_queryset(self):
+        return (
+            Booking.objects.filter(stylist=self.request.user)
+            .select_related("availability", "service", "customer")
+            .order_by("availability__date", "availability__time")
+        )
+    
+class StylistBookingDelete(StylistRequiredMixin, DeleteView):
+    model = Booking
+    template_name = "stylists/bookings/booking_confirm_delete.html"
+    success_url = reverse_lazy("stylist-booking-list")
+
+    def get_queryset(self):
+        return Booking.objects.filter(stylist=self.request.user)
 
 
 class AvailabilityList(StylistRequiredMixin, ListView):

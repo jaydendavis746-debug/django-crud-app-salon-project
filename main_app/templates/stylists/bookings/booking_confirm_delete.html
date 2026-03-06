@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/confirm-delete.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<h1 class="dashboard-title">Delete Booking</h1>
+
+<div class="delete-wrapper">
+
+  <div class="delete-card">
+
+    <p class="delete-message">
+      Are you sure you want to delete this booking?
+    </p>
+
+    <ul class="delete-details">
+      <li>
+        <strong>Client:</strong>
+        {% if object.customer %}
+          {{ object.customer.first_name }} {{ object.customer.last_name }}
+        {% else %}
+          {{ object.guest_name }}
+        {% endif %}
+      </li>
+
+      <li>
+        <strong>Date:</strong> {{ object.availability.date }}
+      </li>
+
+      <li>
+        <strong>Time:</strong> {{ object.availability.time }}
+      </li>
+
+      <li>
+        <strong>Service:</strong> {{ object.service.name }}
+      </li>
+    </ul>
+
+    <form method="post">
+      {% csrf_token %}
+      <button type="submit" class="delete-btn">Yes, Delete</button>
+      <a href="{% url 'stylist-booking-list' %}" class="cancel-btn">Cancel</a>
+    </form>
+
+  </div>
+
+</div>
+
+{% endblock %}

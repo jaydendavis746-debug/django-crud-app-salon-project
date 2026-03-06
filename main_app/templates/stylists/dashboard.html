@@ -2,46 +2,68 @@
 {% load static %}
 
 {% block head %}
-<link rel="stylesheet" href="{% static 'css/stylists/stylist-admin.css' %}">
+<link rel="stylesheet" href="{% static 'css/stylists/stylist-dashboard.css' %}">
 {% endblock %}
 
 {% block content %}
 
-<div class="stylist-dashboard">
+<h1 class="dashboard-title">Today’s Bookings</h1>
+<p class="dashboard-subtitle">{{ today }}</p>
 
-  <h1 class="dashboard-title">Welcome, {{ user.username }}</h1>
+<div class="dashboard-grid">
 
-  <section class="dashboard-section">
-    <h2 class="section-title">Upcoming Bookings</h2>
+  {% if todays_bookings %}
+    {% for booking in todays_bookings %}
+      <div class="booking-card glass-panel fade-in">
 
-    {% for booking in upcoming %}
-      <div class="booking-row">
-        <div class="left">
-          <strong>{{ booking.service.name }}</strong>
-          <span class="client">Client: {{ booking.customer.username }}  {{ booking.guest_name}} </span>
+        <div class="booking-header">
+          <h3 class="booking-client">
+            {% if booking.customer %}
+              {{ booking.customer.first_name }} {{ booking.customer.last_name }}
+            {% else %}
+              {{ booking.guest_name }}
+            {% endif %}
+          </h3>
+          <p class="booking-service">{{ booking.service.name }}</p>
         </div>
 
-        <div class="right">
-          <span class="slot">
-            {{ booking.availability.date|date:"D, j M" }}
-            at
-            {{ booking.availability.time|time:"H:i" }}
+        <div class="booking-time">
+          <span class="time-label">Time:</span>
+          <span class="time-value">
+            {{ booking.availability.time }}
+            {% if booking.availability.end_time %}
+              – {{ booking.availability.end_time }}
+            {% endif %}
           </span>
         </div>
-      </div>
-    {% empty %}
-      <p class="empty">No upcoming bookings.</p>
-    {% endfor %}
-  </section>
 
-  <section class="dashboard-links">
-    <a href="{% url 'stylist-availability' %}" class="btn">Manage Availability</a> 
-    <a href="{% url 'stylist-services' %}" class="btn">Manage Services</a> 
-  </section>
+        <div class="booking-meta">
+          <p class="booking-created">Booked on {{ booking.created_at|date:"M j, Y" }}</p>
+        </div>
+
+      </div>
+    {% endfor %}
+  {% else %}
+    <div class="empty-state glass-panel fade-in">
+      <p>No bookings scheduled for today.</p>
+    </div>
+  {% endif %}
+
+</div>
+
+<div class="dashboard-actions">
+  <a href="{% url 'stylist-booking-list' %}" class="btn">View All Bookings</a>
+  <a href="{% url 'stylist-availability' %}" class="btn">Manage Availability</a> 
+  <a href="{% url 'stylist-services' %}" class="btn">Manage Services</a> 
+  <a href="{% url 'stylist-profile' %}" class="btn">Edit Profile</a>
 </div>
 
 {% endblock %}
 
 
-<!-- <a href="{% url 'stylist-services' %}" class="btn">Manage Services</a>
-    <a href="{% url 'stylist-profile' %}" class="btn">Edit Profile</a> -->
+
+  
+
+
+
+

@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/stylists/stylist-booking-list.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<h1 class="dashboard-title">All Bookings</h1>
+<p class="dashboard-subtitle">A complete history of your appointments</p>
+
+<div class="booking-list-grid">
+
+  {% for booking in bookings %}
+    <div class="booking-card glass-panel fade-in">
+
+      <div class="booking-header">
+        <h3 class="booking-client">
+          {% if booking.customer %}
+            {{ booking.customer.first_name }} {{ booking.customer.last_name }}
+          {% else %}
+            {{ booking.guest_name }}
+          {% endif %}
+        </h3>
+        <p class="booking-service">{{ booking.service.name }}</p>
+      </div>
+
+      <div class="booking-time">
+        <span class="time-label">Date:</span>
+        <span class="time-value">{{ booking.availability.date }}</span>
+      </div>
+
+      <div class="booking-time">
+        <span class="time-label">Time:</span>
+        <span class="time-value">
+          {{ booking.availability.time }}
+          {% if booking.availability.end_time %}
+            – {{ booking.availability.end_time }}
+          {% endif %}
+        </span>
+      </div>
+
+      <div class="booking-meta">
+        <p class="booking-created">
+          Booked on {{ booking.created_at|date:"M j, Y" }}
+        </p>
+      </div>
+
+      <div class="booking-actions">
+        <a href="{% url 'stylist-booking-delete' booking.id %}" class="btn delete-btn">
+          Delete
+        </a>
+      </div>
+
+    </div>
+  {% empty %}
+    <div class="empty-state glass-panel fade-in">
+      <p>No bookings found.</p>
+    </div>
+  {% endfor %}
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,67 @@
+.booking-list-grid {
+  display: grid;
+  gap: var(--space-4);
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+}
+
+.booking-card {
+  padding: var(--space-4);
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.booking-header h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.booking-service {
+  margin: 0;
+  color: var(--color-text-light);
+  font-size: 0.95rem;
+}
+
+.booking-time {
+  display: flex;
+  gap: 6px;
+  font-size: 1rem;
+}
+
+.time-label {
+  font-weight: 600;
+  color: var(--color-primary-dark);
+}
+
+.booking-meta {
+  margin-top: auto;
+  font-size: 0.85rem;
+  color: var(--color-text-light);
+}
+
+.booking-actions {
+  margin-top: var(--space-3);
+  text-align: right;
+}
+
+.delete-btn {
+  background: var(--color-danger);
+  color: white;
+  padding: var(--space-2) var(--space-4);
+  border-radius: 6px;
+  font-weight: 600;
+  transition: opacity 0.2s ease;
+}
+
+.delete-btn:hover {
+  opacity: 0.85;
+}
+
+.empty-state {
+  text-align: center;
+  padding: var(--space-6);
+  font-size: 1.1rem;
+  color: var(--color-text-light);
+}
