@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="glass-card">
+  <h1>Select a Stylist</h1>
+  <p>For {{ service.name }}</p>
+
+  <div class="stylist-grid">
+    {% for stylist in stylists %}
+      <a class="stylist-card" href="{% url 'quick_book_availability' service.id stylist.id %}">
+        <img src="{{ stylist.stylistprofile.profile_picture.url }}" class="stylist-photo">
+        <h3>{{ stylist.first_name }} {{ stylist.last_name }}</h3>
+        <p>{{ stylist.stylistprofile.specialties }}</p>
+      </a>
+    {% endfor %}
+  </div>
+</div>
+
+
+{% endblock %}

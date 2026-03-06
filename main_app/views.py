@@ -49,6 +49,23 @@ class QuickBookService(ListView):
     template_name = "bookings/quick_book_service.html"
     context_object_name = "services"
 
+
+class QuickBookStylist(ListView):
+    model = User
+    template_name = "bookings/quick_book_stylist.html"
+    context_object_name = "stylists"
+
+    def get_queryset(self):
+        service_id = self.kwargs['service_id']
+        return User,objects.filter(
+            stylist_service__service_id=service_id
+        ).select_related('stylistprofile').distinct()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['service'] = Service.objects.get(id=self.kwargs['service_id'])
+        return context
+
 class ServiceList(ListView):
     model = Service
     template_name = 'services/service_list.html'
