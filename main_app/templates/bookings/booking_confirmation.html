@@ -1,25 +1,61 @@
 {% extends 'base.html' %}
+
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/bookings/booking-confirmation.css' %}">
+{% endblock %}
+
 {% block content %}
 
-<h1>Booking Confirmed 🎉</h1>
-<p> <strong>Service:</strong> {{ booking.service.name }} </p>
+<div class="confirmation-wrapper">
 
-<p> <strong>Stylist:</strong> {{ booking.stylist.username }} </p>
+    <div class="confirmation-card glass-card">
 
-<p> <strong>Date:</strong> {{ booking.availability.date }} </p>
+        <h1 class="confirmation-title">Booking Confirmed ✨</h1>
+        <p class="confirmation-subtitle">Your appointment has been successfully scheduled.</p>
 
-<p> <strong>Time:</strong> {{ booking.availability.time }} </p>
+        <div class="confirmation-details">
 
-<p>
-<strong>Booked for:</strong>
-{% if booking.customer %}
-    {{ booking.customer.username }}
-{% else %}
-    {{ booking.guest_name }}
-{% endif %}
-</p>
+            <div class="detail-row">
+                <span class="detail-label">Service</span>
+                <span class="detail-value">{{ booking.service.name }}</span>
+            </div>
 
-<a href="{% url 'service-list' %}">Make another Booking?</a>
+            <div class="detail-row">
+                <span class="detail-label">Stylist</span>
+                <span class="detail-value">{{ booking.stylist.stylistprofile.display_name|default:booking.stylist.username }}</span>
+            </div>
 
+            <div class="detail-row">
+                <span class="detail-label">Date</span>
+                <span class="detail-value">{{ booking.availability.date }}</span>
+            </div>
+
+            <div class="detail-row">
+                <span class="detail-label">Time</span>
+                <span class="detail-value">{{ booking.availability.time }}</span>
+            </div>
+
+            <div class="detail-row">
+                <span class="detail-label">Booked For</span>
+                <span class="detail-value">
+                    {% if booking.customer %}
+                        {{ booking.customer.first_name }} {{ booking.customer.last_name }}
+                    {% else %}
+                        {{ booking.guest_name }}
+                    {% endif %}
+                </span>
+            </div>
+
+        </div>
+
+        <a href="{% url 'service-list' %}" class="btn primary-btn">
+            Make Another Booking
+        </a>
+
+    </div>
+
+</div>
 
 {% endblock %}
