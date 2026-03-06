@@ -1,4 +1,4 @@
-/* Container */
+
 .booking-container {
   width: min(700px, 90%);
   margin: 0 auto;
@@ -6,7 +6,7 @@
   text-align: center;
 }
 
-/* Title with glow */
+
 .booking-title {
   font-family: 'Playfair Display', serif;
   font-size: clamp(2rem, 4vw, 3rem);
