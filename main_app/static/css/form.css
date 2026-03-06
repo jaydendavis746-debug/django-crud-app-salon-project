@@ -1,0 +1,88 @@
+
+
+
+.dashboard-title {
+  font-family: 'Playfair Display', serif;
+  font-size: var(--font-size-xxl);
+  font-weight: 700;
+  color: var(--color-primary-dark);
+  margin-bottom: var(--space-5);
+  text-align: center;
+  letter-spacing: -0.5px;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+.glass-form-wrapper {
+  max-width: 650px;
+  margin: 0 auto;
+  padding-top: var(--space-6);
+}
+
+
+.glass-form {
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  padding: var(--space-6);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-medium);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  animation: fadeIn 0.4s ease;
+}
+
+
+.form-grid {
+  display: grid;
+  gap: var(--space-4);
+}
+
+
+.glass-form label {
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: var(--space-1);
+  display: block;
+}
+
+
+.glass-form p {
+  margin-bottom: var(--space-4);
+}
+
+.glass-form button.btn {
+  margin-top: var(--space-4);
+  width: 100%;
+}
+
+
+.link {
+  margin-top: var(--space-4);
+  text-align: center;
+  font-size: 1rem;
+  color: var(--color-text-light);
+}
+
+
+.link a {
+  color: var(--color-primary-dark);
+  font-weight: 600;
+  text-decoration: none;
+  margin-left: 4px;
+  transition: color 0.25s ease;
+}
+
+.link a:hover {
+  color: var(--color-primary);
+  text-decoration: underline;
+}

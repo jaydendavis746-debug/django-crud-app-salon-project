@@ -94,7 +94,7 @@ header {
 
 
 nav {
-  display: none;
+  display: block;
   width: 100%;
   background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(12px);
@@ -103,11 +103,24 @@ nav {
   left: 0;
   padding: var(--space-4);
   box-shadow: var(--shadow-medium);
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transform: translateY(-10px);
+  pointer-events: none; 
+  transition:
+    max-height 0.5s ease,
+    opacity 0.5s ease,
+    transform 0.35s ease;
 }
 
 
 nav.open {
-  display: block;
+ 
+  max-height: 500px; 
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
 }
 
 

@@ -9,7 +9,7 @@
 
 <div class="stylist-dashboard">
 
-  <h1 class="dashboard-title">Welcome, {{ stylist.username }}</h1>
+  <h1 class="dashboard-title">Welcome, {{ user.username }}</h1>
 
   <section class="dashboard-section">
     <h2 class="section-title">Upcoming Bookings</h2>
@@ -18,7 +18,7 @@
       <div class="booking-row">
         <div class="left">
           <strong>{{ booking.service.name }}</strong>
-          <span class="client">Client: {{ booking.customer.username }}</span>
+          <span class="client">Client: {{ booking.customer.username }}  {{ booking.guest_name}} </span>
         </div>
 
         <div class="right">
@@ -36,6 +36,7 @@
 
   <section class="dashboard-links">
     <a href="{% url 'stylist-availability' %}" class="btn">Manage Availability</a> 
+    <a href="{% url 'stylist-services' %}" class="btn">Manage Services</a> 
   </section>
 </div>
 

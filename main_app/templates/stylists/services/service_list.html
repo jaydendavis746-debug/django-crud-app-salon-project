@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/stylists/stylist-admin.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<h1 class="dashboard-title">Your Services</h1>
+
+<a href="{% url 'stylist-service-add' %}" class="btn">Add Service</a>
+
+<div class="grid">
+  {% for s in services %}
+    <div class="glass-card">
+      <h3>{{ s.service.name }}</h3>
+      <p>Duration: {{ s.service.duration }} min</p>
+      <p>Price: £{{ s.price }}</p>
+
+      <a href="{% url 'stylist-service-update' s.pk %}" class="btn-outline">Edit</a>
+      <a href="{% url 'stylist-service-delete' s.pk %}" class="btn-outline">Delete</a>
+    </div>
+  {% empty %}
+    <p>You haven't added any services yet.</p>
+  {% endfor %}
+</div>
+
+{% endblock %}

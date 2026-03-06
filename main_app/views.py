@@ -3,10 +3,11 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse, reverse_lazy
 from django.http import HttpResponse, JsonResponse
 
-from .models import Service, StylistService, Availability, Booking
-from .forms import BookingForm
+from .models import Service, StylistService, Availability, Booking, StylistProfile
+from .forms import BookingForm, StylistProfileForm, UserForm
 from django.contrib.auth.models import User
 
+from django.views import View
 from django.views.generic import ListView, DetailView, TemplateView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
@@ -337,7 +338,7 @@ def signup(request):
             error_message = 'Invalid sign up - try again'
     form = UserCreationForm()
     context = {'form': form, 'error_message': error_message}
-    return render(request, 'signup.html', context)
+    return render(request, 'registration/signup.html', context)
 
 
 #---------------------------------------------------------------------------------Stylists Views----------------------------------------------------------------------------------------------------------------------------
@@ -367,9 +368,39 @@ class StylistTemplate(StylistRequiredMixin, TemplateView):
         return context
 
 
+class StylistProfile(StylistRequiredMixin, UserPassesTestMixin, View):
+
+    def test_func(self):
+        return hasattr(self.request.user, 'stylistprofile')
+
+    def get(self, request):
+    profile = request.user.stylistprofile
+    user_form = UserForm(instance=request.user)
+    profile_form = StylistProfileForm(instance=profile)
+    return render(request, 'stylist/profile.html', {
+        'user_form': user_form,
+        'profile_form': profile_form,
+    })
+
+    def post(self, request):
+        profile = request.user.stylistprofile
+        user_form = UserForm(request.POST, instance=request.user)
+        profile_form = StylistProfileForm(request.POST, request.FILES, instance=profile)
+
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            return redirect('stylist-profile')
+
+        return render(request, 'stylist/profile.html', {
+            'user_form': user_form,
+            'profile_form': profile_form,
+        })
+
+
 class AvailabilityList(StylistRequiredMixin, ListView):
     model = Availability
-    template_name = "stylists/availability_list.html"
+    template_name = "stylists/availability/availability_list.html"
     context_object_name = "slots"
 
     def get_queryset(self):
@@ -382,7 +413,7 @@ class AvailabilityList(StylistRequiredMixin, ListView):
 class AvailabilityCreate(StylistRequiredMixin, CreateView):
     model = Availability
     fields = ["date", "time"]
-    template_name = "stylists/availability_form.html"
+    template_name = "stylists/availability/availability_form.html"
     success_url = reverse_lazy("stylist-availability")
 
     def form_valid(self, form):
@@ -393,7 +424,7 @@ class AvailabilityCreate(StylistRequiredMixin, CreateView):
 class AvailabilityUpdate(StylistRequiredMixin, UpdateView):
     model = Availability
     fields = ["date", "time"]
-    template_name = "stylist/availability_form.html"
+    template_name = "stylists/availability/availability_form.html"
     success_url = reverse_lazy("stylist-availability")
 
     def get_queryset(self):
@@ -402,13 +433,47 @@ class AvailabilityUpdate(StylistRequiredMixin, UpdateView):
 
 class AvailabilityDelete(StylistRequiredMixin, DeleteView):
     model = Availability
-    template_name = "stylists/availability_confirm_delete.html"
+    template_name = "stylists/availability/availability_confirm_delete.html"
     success_url = reverse_lazy("stylist-availability")
 
     def get_queryset(self):
         return Availability.objects.filter(stylist=self.request.user)
 
+class StylistServiceList(StylistRequiredMixin, ListView):
+    model = StylistService
+    template_name = "stylists/services/service_list.html"
+    context_object_name = 'services'
 
+    def get_queryset(self):
+        return StylistService.objects.filter(stylist=self.request.user)
+
+
+class StylistServiceCreate(StylistRequiredMixin, CreateView):
+    model = StylistService
+    fields = ["service", "price", ]
+    template_name = "stylists/services/service_form.html"
+    success_url = reverse_lazy("stylist-services")
+
+    def form_valid(self, form):
+        form.instance.stylist = self.request.user
+        return super().form_valid(form)
+
+class StylistServiceUpdate(StylistRequiredMixin, UpdateView):
+    model = StylistService
+    fields = ["service", "price", "duration"]
+    template_name = "stylists/services/service_form.html"
+    success_url = reverse_lazy("stylist-services")
+
+    def get_queryset(self):
+        return StylistService.objects.filter(stylist=self.request.user)
+
+class StylistServiceDelete(StylistRequiredMixin, DeleteView):
+    model = StylistService
+    template_name = "stylists/services/service_confirm_delete.html"
+    success_url = reverse_lazy("stylist-services")
+
+    def get_queryset(self):
+        return StylistService.objects.filter(stylist=self.request.user)
 
 
 class RoleBasedLogin(LoginView):

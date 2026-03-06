@@ -44,13 +44,13 @@
   margin-top: 2rem;
 }
 
-.availability-grid {
+.grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 1.5rem;
 }
 
-.availability-card {
+.glass-card {
   background: rgba(255,255,255,0.45);
   backdrop-filter: blur(10px);
   padding: 1.4rem;
@@ -58,18 +58,18 @@
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
-.availability-card .info {
+.glass-card .info {
   margin-bottom: 1rem;
 }
 
-.availability-card .date,
-.availability-card .time {
+.glass-card .date,
+.glass-card .time {
   display: block;
   font-size: 1.1rem;
   font-weight: 600;
 }
 
-.availability-card .actions {
+.glass-card .actions {
   display: flex;
   gap: 0.6rem;
 }

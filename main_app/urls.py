@@ -14,10 +14,16 @@ urlpatterns = [
   path('bookings/<int:pk>/update/', views.BookingUpdate.as_view(), name='booking-update'),
   path('bookings/<int:pk>/delete/', views.BookingDelete.as_view(), name='booking-delete'),
   path('stylist/dashboard/', views.StylistTemplate.as_view(), name='stylist-dashboard'),
+  path('stylist/profile/', views.StylistProfileView.as_view(), name='stylist-profile'),
   path("stylist/availability/", views.AvailabilityList.as_view(), name="stylist-availability"),
   path("stylist/availability/add/", views.AvailabilityCreate.as_view(), name="availability-add"),
   path("stylist/availability/<int:pk>/edit/", views.AvailabilityUpdate.as_view(), name="availability-update"),
   path("stylist/availability/<int:pk>/delete/", views.AvailabilityDelete.as_view(), name="availability-delete"),
+  path("stylist/services/", views.StylistServiceList.as_view(), name="stylist-services"),
+  path("stylist/services/add/", views.StylistServiceCreate.as_view(), name="stylist-service-add"),
+  path("stylist/services/<int:pk>/edit/", views.StylistServiceUpdate.as_view(), name="stylist-service-update"),
+  path("stylist/services/<int:pk>/delete/", views.StylistServiceDelete.as_view(), name="stylist-service-delete"),
+
 
   path("api/times/<int:stylist_id>/", views.get_times_for_date, name="get_times_for_date"),
   path('accounts/signup/', views.signup, name='signup'),

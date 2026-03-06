@@ -15,9 +15,9 @@
     <a href="{% url 'availability-add' %}" class="btn">Add Slot</a>
   </div>
 
-  <div class="availability-grid">
+  <div class="grid">
     {% for slot in slots %}
-      <div class="availability-card">
+      <div class="glass-card">
         <div class="info">
           <span class="date">{{ slot.date|date:"D, j M" }}</span>
           <span class="time">{{ slot.time|time:"H:i" }}</span>

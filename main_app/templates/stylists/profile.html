@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1 class="dashboard-title">Your Profile</h1>
+
+<div class="glass-form-wrapper">
+
+  <div class="profile-card glass-form">
+
+    <div class="profile-header">
+      <div class="profile-avatar">
+        {% if profile_form.instance.profile_picture %}
+          <img src="{{ profile_form.instance.profile_picture.url }}" alt="Profile picture">
+        {% else %}
+          <div class="avatar-placeholder">{{ request.user.username|first|upper }}</div>
+        {% endif %}
+      </div>
+
+      <div class="profile-info">
+        <h2 class="profile-name">{{ request.user.first_name }} {{ request.user.last_name }}</h2>
+        <p class="profile-username">@{{ request.user.username }}</p>
+        <p class="profile-email">{{ request.user.email }}</p>
+      </div>
+    </div>
+
+    <hr class="profile-divider">
+
+    <form method="post" enctype="multipart/form-data" class="glass-form">
+      {% csrf_token %}
+
+      <h3 class="section-title">Account Info</h3>
+      <div class="form-grid">
+        {{ user_form.as_p }}
+      </div>
+
+      <h3 class="section-title">Stylist Profile</h3>
+      <div class="form-grid">
+        {{ profile_form.as_p }}
+      </div>
+
+      <button type="submit" class="btn">Save Changes</button>
+    </form>
+
+  </div>
+
+</div>
+
+{% endblock %}

@@ -1,5 +1,7 @@
 from django import forms
-from .models import Booking
+from .models import Booking, StylistProfile
+from django.contrib.auth.models import User
+
 
 
 class BookingForm(forms.ModelForm):
@@ -32,3 +34,34 @@ class BookingForm(forms.ModelForm):
                 raise forms.ValidationError('Name and email are required for guest bookings')
 
         return cleaned_data
+
+class UserForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'email']
+        widgets = {
+            'first_name': forms.TextInput(attrs={'placeholder': 'First name'}),
+            'last_name': forms.TextInput(attrs={'placeholder': 'Last name'}),
+            'email': forms.EmailInput(attrs={'placeholder': 'Email'}),
+        }
+
+
+class StylistProfileForm(forms.ModelForm):
+    class Meta:
+        model = StylistProfile
+        fields = [
+            'bio',
+            'instagram',
+            'facebook',
+            'other',
+            'profile_picture',
+            'specialties',
+        ]
+        widgets = {
+            'bio': forms.Textarea(attrs={'rows': 4, 'placeholder': 'Tell clients about yourself...'}),
+            'instagram': forms.URLInput(attrs={'placeholder': 'Instagram URL'}),
+            'facebook': forms.URLInput(attrs={'placeholder': 'Facebook URL'}),
+            'other': forms.URLInput(attrs={'placeholder': 'Website or other link'}),
+            'specialties': forms.TextInput(attrs={'placeholder': 'e.g. Balayage, Braids, Extensions'}),
+        }
+

@@ -24,6 +24,7 @@
           {% if user.is_authenticated and user.stylistprofile %}
             <li><a href="{% url 'stylist-dashboard' %}">Stylist Dashboard</a></li>
             <li><a href="{% url 'stylist-availability' %}">Availability</a></li>
+            <li><a href="{% url 'stylist-services' %}">Services</a></li>
             <li>
               <form id="logout-form" method="post" action="{% url 'logout' %}">
                 {% csrf_token %}
@@ -67,4 +68,4 @@
 
   </body>
 </html>
- 
+  
