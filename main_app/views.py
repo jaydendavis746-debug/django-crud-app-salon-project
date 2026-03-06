@@ -57,14 +57,34 @@ class QuickBookStylist(ListView):
 
     def get_queryset(self):
         service_id = self.kwargs['service_id']
-        return User,objects.filter(
-            stylist_service__service_id=service_id
+        return User.objects.filter(
+            stylistservice__service_id=service_id
         ).select_related('stylistprofile').distinct()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['service'] = Service.objects.get(id=self.kwargs['service_id'])
         return context
+
+
+class QuickBookAvailability(ListView):
+    model = Availability
+    template_name = 'bookings/quick_book_availability.html'
+    conetxt_object_name = 'slots'
+
+    def get_queryset(self):
+        stylist_id = self.kwargs['stylist_id']
+        return Availability.objects.filter(
+            stylist_id=stylist_is,
+            is_booked=False
+        ).order_by('date', 'time')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['service'] = Servuice.objects.get(id=self.kwargs['service_id'])
+        context['stylist'] = User.objects.get(id=self.kwargs['stylist_id'])
+        return context
+
 
 class ServiceList(ListView):
     model = Service

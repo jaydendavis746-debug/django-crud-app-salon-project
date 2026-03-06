@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="glass-card">
+  <h1>Select a Time</h1>
+
+  <p>{{ service.name }} with {{ stylist.first_name }} {{ stylist.last_name }}</p>
+
+  <div class="slots-grid">
+    {% for slot in slots %}
+      <a class="slot-card"
+         href="{% url 'book_appointment' availability_id=slot.id service_id=service.id %}">
+        {{ slot.date }} at {{ slot.time }}
+      </a>
+    {% endfor %}
+  </div>
+</div>
+
+
+
+{% endblock %}
