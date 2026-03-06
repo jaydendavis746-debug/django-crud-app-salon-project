@@ -105,12 +105,8 @@ class StylistDetail(DetailView):
         }
         for ss in stylist_services
         ] 
-
-        specialties = getattr(profile, "specialties", None)
-        if specialties:
-            context["specialties"] = profile.specialties
-
         
+        context["specialties"] = profile.specialties
         context["profile_picture"] = getattr(profile, "profile_picture", None)
         context["bio"] = getattr(profile, "bio", "")
         context["instagram"] = getattr(profile, "instagram", "")

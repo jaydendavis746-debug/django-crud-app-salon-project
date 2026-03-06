@@ -12,8 +12,8 @@
   
   <div class="stylist-hero glass-card">
     <div class="profile-avatar">
-        {% if profile_form.instance.profile_picture %}
-          <img src="{{ profile_form.instance.profile_picture.url }}" alt="Profile picture">
+        {% if profile_picture %}
+          <img src="{{ profile_picture.url }}" alt=" {{stylist.first_name}}'s Profile picture">
         {% else %}
           <div class="avatar-placeholder">{{ stylist.first_name|first|upper }}</div>
         {% endif %}
@@ -45,11 +45,12 @@
   <div class="stylist-section glass-card">
     <h2 class="section-title">Specialties</h2>
     <div class="specialties-list">
-      {% for specialty in stylist.specialty %}
-        <span class="specialty-tag">{{ specialty.name }}</span>
-      {% empty %}
-        <p>No specialties listed yet.</p>
-      {% endfor %}
+      {% if specialties %}
+        <p class="specialties-text">{{ specialties }}</p>
+      {% else %}
+        <p>No specialties listed.</p>
+      {% endif %}
+
     </div>
   </div>
 
