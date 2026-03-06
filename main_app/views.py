@@ -14,9 +14,9 @@ from django.contrib.auth.views import LoginView
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.core.exceptions import ValidationError
 
 from django.utils import timezone
-from django.core.exceptions import ValidationError 
 from datetime import datetime, timedelta
 from django.db.models import Min, Max
 
@@ -340,7 +340,16 @@ def signup(request):
     return render(request, 'signup.html', context)
 
 
-class StylistTemplate(TemplateView):
+#---------------------------------------------------------------------------------Stylists Views----------------------------------------------------------------------------------------------------------------------------
+
+class StylistRequiredMixin(LoginRequiredMixin):
+    def dispatch(self, request, *args, **kwargs):
+        if not hasattr(request.user, 'stylistprofile'):
+            return redirect('home')
+        return super().dispacth(request, *args, **kwargs) 
+
+
+class StylistTemplate(StylistRequiredMixin, TemplateView):
     template_name='stylists/dashboard.html'
 
     def get_context_data(self, **kwargs):
@@ -358,7 +367,7 @@ class StylistTemplate(TemplateView):
         return context
 
 
-class AvailabilityList(ListView):
+class AvailabilityList(StylistRequiredMixin, ListView):
     model = Availability
     template_name = "stylists/availability_list.html"
     context_object_name = "slots"
@@ -370,7 +379,7 @@ class AvailabilityList(ListView):
         ).order_by("date", "time")
 
 
-class AvailabilityCreate(CreateView):
+class AvailabilityCreate(StylistRequiredMixin, CreateView):
     model = Availability
     fields = ["date", "time"]
     template_name = "stylists/availability_form.html"
@@ -381,7 +390,7 @@ class AvailabilityCreate(CreateView):
         return super().form_valid(form)
 
 
-class AvailabilityUpdate(UpdateView):
+class AvailabilityUpdate(StylistRequiredMixin, UpdateView):
     model = Availability
     fields = ["date", "time"]
     template_name = "stylist/availability_form.html"
@@ -391,7 +400,7 @@ class AvailabilityUpdate(UpdateView):
         return Availability.objects.filter(stylist=self.request.user)
 
 
-class AvailabilityDelete(DeleteView):
+class AvailabilityDelete(StylistRequiredMixin, DeleteView):
     model = Availability
     template_name = "stylists/availability_confirm_delete.html"
     success_url = reverse_lazy("stylist-availability")
