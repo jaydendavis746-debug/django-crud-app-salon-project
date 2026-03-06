@@ -451,6 +451,12 @@ class AvailabilityUpdate(StylistRequiredMixin, UpdateView):
     def get_queryset(self):
         return Availability.objects.filter(stylist=self.request.user)
 
+    def dispatch(self, request, *args, **kwargs):
+        availability = self.get_object()
+        if availability.is_booked:
+            return HttpResponseForbidden("This availability is booked and cannot be edited.")
+        return super().dispatch(request, *args, **kwargs)
+
 
 class AvailabilityDelete(StylistRequiredMixin, DeleteView):
     model = Availability
@@ -459,6 +465,12 @@ class AvailabilityDelete(StylistRequiredMixin, DeleteView):
 
     def get_queryset(self):
         return Availability.objects.filter(stylist=self.request.user)
+    
+    def dispatch(self, request, *args, **kwargs):
+        availability = self.get_object()
+        if availability.is_booked:
+            return HttpResponseForbidden("This availability is booked and cannot be deleted.")
+        return super().dispatch(request, *args, **kwargs)
 
 class StylistServiceList(StylistRequiredMixin, ListView):
     model = StylistService

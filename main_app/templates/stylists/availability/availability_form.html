@@ -17,7 +17,25 @@
     {% csrf_token %}
 
      <div class="form-grid">
-      {{ form.as_p }}
+      <label for="date">Date</label>
+    <input 
+        type="date" 
+        id="date" 
+        name="date" 
+        value="{{ object.date }}"
+        class="form-input"
+        required
+    >
+
+     <label for="time">Time</label>
+    <input 
+        type="time" 
+        id="time" 
+        name="time" 
+        value="{{ object.time }}"
+        class="form-input"
+        required
+    >
     </div>
 
     <button type="submit" class="btn">

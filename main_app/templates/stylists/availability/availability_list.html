@@ -22,11 +22,14 @@
           <span class="date">{{ slot.date|date:"D, j M" }}</span>
           <span class="time">{{ slot.time|time:"H:i" }}</span>
         </div>
-
-        <div class="actions">
-          <a href="{% url 'availability-update' slot.pk %}" class="btn-outline">Edit</a>
-          <a href="{% url 'availability-delete' slot.pk %}" class="btn-outline danger">Delete</a>
-        </div>
+        {% if slot.is_booked %}
+            <span class="badge booked">Booked</span>
+        {% else %}
+          <div class="actions">
+            <a href="{% url 'availability-update' slot.pk %}" class="btn-outline">Edit</a>
+            <a href="{% url 'availability-delete' slot.pk %}" class="btn-outline danger">Delete</a>
+          </div>
+        {% endif %}
       </div>
     {% empty %}
       <p class="empty">You have no availability slots yet.</p>
