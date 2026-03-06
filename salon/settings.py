@@ -32,7 +32,15 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 if not 'ON_HEROKU' in os.environ:
     DEBUG = True
 
+
 ALLOWED_HOSTS = ['*']
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://firstlook-salon-3904214644a9.herokuapp.com",
+]
+
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 
 # Application definition
