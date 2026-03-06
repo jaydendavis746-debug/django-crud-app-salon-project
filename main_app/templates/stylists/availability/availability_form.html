@@ -16,26 +16,28 @@
   <form method="post" class="glass-form">
     {% csrf_token %}
 
-     <div class="form-grid">
-      <label for="date">Date</label>
-    <input 
-        type="date" 
-        id="date" 
-        name="date" 
-        value="{{ object.date }}"
-        class="form-input"
-        required
-    >
+    <div class="form-grid">
 
-     <label for="time">Time</label>
-    <input 
-        type="time" 
-        id="time" 
-        name="time" 
-        value="{{ object.time }}"
-        class="form-input"
-        required
-    >
+      <label for="date">Date</label>
+      <input 
+          type="date" 
+          id="date" 
+          name="date" 
+          value="{{ form.date.value|default:availability.date }}"
+          class="form-input"
+          required
+      >
+
+      <label for="time">Time</label>
+      <input 
+          type="time" 
+          id="time" 
+          name="time" 
+          value="{{ form.time.value|default:availability.time }}"
+          class="form-input"
+          required
+      >
+
     </div>
 
     <button type="submit" class="btn">

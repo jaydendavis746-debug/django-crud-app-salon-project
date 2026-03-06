@@ -20,6 +20,7 @@ from django.core.exceptions import ValidationError
 from django.utils import timezone
 from datetime import datetime, timedelta
 from django.db.models import Min, Max
+from django import forms
 
 def invalid_page(request):
     return render(request, "invalid.html", status=400)
@@ -324,19 +325,53 @@ class BookingDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return super().delete(request, *args, **kwargs)
 
 
+class CustomSignupForm(UserCreationForm):
+    first_name = forms.CharField(max_length=30, required=True)
+    last_name = forms.CharField(max_length=30, required=True)
+    email = forms.EmailField(required=True)
+
+    password1 = forms.CharField(
+        label="Password",
+        widget=forms.PasswordInput,
+        help_text="At least 8 charcters"  
+    )
+
+    password2 = forms.CharField(
+        label="Confirm Password",
+        widget=forms.PasswordInput,
+        help_text=""  
+    )
+
+    class Meta:
+        model = User
+        fields = ["username", "first_name", "last_name", "email", "password1", "password2"]
+        help_texts = {
+            "username": None,
+            "password1": None,
+            "password2": None,
+        }
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.first_name = self.cleaned_data["first_name"]
+        user.last_name = self.cleaned_data["last_name"]
+        user.email = self.cleaned_data["email"]
+        if commit:
+            user.save()
+        return user
 
 
 def signup(request):
     error_message = ''
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = CustomSignupForm(request.POST)
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect('service-list')
+            return redirect('login')
         else:
             error_message = 'Invalid sign up - try again'
-    form = UserCreationForm()
+    form = CustomSignupForm()
     context = {'form': form, 'error_message': error_message}
     return render(request, 'registration/signup.html', context)
 
@@ -447,6 +482,7 @@ class AvailabilityUpdate(StylistRequiredMixin, UpdateView):
     fields = ["date", "time"]
     template_name = "stylists/availability/availability_form.html"
     success_url = reverse_lazy("stylist-availability")
+    context_object_name = 'availability' 
 
     def get_queryset(self):
         return Availability.objects.filter(stylist=self.request.user)
@@ -516,4 +552,4 @@ class RoleBasedLogin(LoginView):
         user = self.request.user
         if hasattr(user,'stylistprofile'):
             return reverse('stylist-dashboard')
-        return reverse('home')
+        return reverse('home') 
