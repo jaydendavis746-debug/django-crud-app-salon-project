@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/stylists/stylist-admin.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="availability-page">
+
+  <h1 class="dashboard-title">Your Availability</h1>
+
+  <div class="top-actions">
+    <a href="{% url 'availability-add' %}" class="btn">Add Slot</a>
+  </div>
+
+  <div class="availability-grid">
+    {% for slot in slots %}
+      <div class="availability-card">
+        <div class="info">
+          <span class="date">{{ slot.date|date:"D, j M" }}</span>
+          <span class="time">{{ slot.time|time:"H:i" }}</span>
+        </div>
+
+        <div class="actions">
+          <a href="{% url 'availability-update' slot.pk %}" class="btn-outline">Edit</a>
+          <a href="{% url 'availability-delete' slot.pk %}" class="btn-outline danger">Delete</a>
+        </div>
+      </div>
+    {% empty %}
+      <p class="empty">You have no availability slots yet.</p>
+    {% endfor %}
+  </div>
+
+</div>
+
+{% endblock %}

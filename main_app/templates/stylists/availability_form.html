@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/stylists/stylist-admin.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="availability-form-page">
+
+  <h1 class="dashboard-title">
+    {% if object %}Edit Availability{% else %}Add Availability{% endif %}
+  </h1>
+
+  <form method="post" class="glass-form">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <button type="submit" class="btn">
+      {% if object %}Update{% else %}Create{% endif %}
+    </button>
+  </form>
+
+</div>
+
+{% endblock %}

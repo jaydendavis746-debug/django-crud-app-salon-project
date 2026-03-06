@@ -7,7 +7,7 @@ from .models import Service, StylistService, Availability, Booking
 from .forms import BookingForm
 from django.contrib.auth.models import User
 
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, TemplateView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from django.contrib.auth.views import LoginView
@@ -338,3 +338,63 @@ def signup(request):
     form = UserCreationForm()
     context = {'form': form, 'error_message': error_message}
     return render(request, 'signup.html', context)
+
+
+class StylistTemplate(TemplateView):
+    template_name='stylists/dashboard.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        stylist_user = self.request.user
+        stylist_profile = getattr(stylist_user, 'stylistprofile', None)
+
+        upcoming = Booking.objects.filter(
+            stylist = stylist_user,
+            availability__date__gte=timezone.now().date()
+        ).order_by('availability__date', 'availability__time')
+
+        context['stylist'] = stylist_profile
+        context['upcoming'] = upcoming
+        return context
+
+
+class AvailabilityList(ListView):
+    model = Availability
+    template_name = "stylists/availability_list.html"
+    context_object_name = "slots"
+
+    def get_queryset(self):
+        stylist_user = self.request.user
+        return Availability.objects.filter(
+            stylist=stylist_user
+        ).order_by("date", "time")
+
+
+class AvailabilityCreate(CreateView):
+    model = Availability
+    fields = ["date", "time"]
+    template_name = "stylists/availability_form.html"
+    success_url = reverse_lazy("stylist-availability")
+
+    def form_valid(self, form):
+        form.instance.stylist = self.request.user
+        return super().form_valid(form)
+
+
+class AvailabilityUpdate(UpdateView):
+    model = Availability
+    fields = ["date", "time"]
+    template_name = "stylist/availability_form.html"
+    success_url = reverse_lazy("stylist-availability")
+
+    def get_queryset(self):
+        return Availability.objects.filter(stylist=self.request.user)
+
+
+class AvailabilityDelete(DeleteView):
+    model = Availability
+    template_name = "stylists/availability_confirm_delete.html"
+    success_url = reverse_lazy("stylist-availability")
+
+    def get_queryset(self):
+        return Availability.objects.filter(stylist=self.request.user)
