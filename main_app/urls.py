@@ -4,6 +4,10 @@ from . import views
 urlpatterns = [
   path('', views.Home.as_view(), name='home'),
   path('about/', views.about, name='about'),
+  path("quick-book/", views.QuickBookService.as_view(), name="quick_book_service"),
+  path("quick-book/<int:service_id>/stylists/", views.QuickBookStylist.as_view(), name="quick_book_stylist"),
+
+
   path('services/', views.ServiceList.as_view(), name='service-list'),
   path('services/<int:pk>/', views.ServiceDetail.as_view(), name='service-detail'),
   path('stylist/<int:pk>/', views.StylistDetail.as_view(), name='stylist-detail'),
@@ -25,8 +29,6 @@ urlpatterns = [
   path("stylist/services/add/", views.StylistServiceCreate.as_view(), name="stylist-service-add"),
   path("stylist/services/<int:pk>/edit/", views.StylistServiceUpdate.as_view(), name="stylist-service-update"),
   path("stylist/services/<int:pk>/delete/", views.StylistServiceDelete.as_view(), name="stylist-service-delete"),
-
-
   path("api/times/<int:stylist_id>/", views.get_times_for_date, name="get_times_for_date"),
   path('accounts/signup/', views.signup, name='signup'),
   path("accounts/login/", views.RoleBasedLogin.as_view(), name="login"),

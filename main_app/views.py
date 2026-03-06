@@ -43,6 +43,12 @@ class Home(LoginView):
 def about(request):
     return render(request, 'about.html')
 
+
+class QuickBookService(ListView):
+    model = Service
+    template_name = "bookings/quick_book_service.html"
+    context_object_name = "services"
+
 class ServiceList(ListView):
     model = Service
     template_name = 'services/service_list.html'
