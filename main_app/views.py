@@ -70,7 +70,7 @@ class QuickBookStylist(ListView):
 class QuickBookAvailability(ListView):
     model = Availability
     template_name = 'bookings/quick_book_availability.html'
-    conetxt_object_name = 'slots'
+    context_object_name = 'slots'
 
     def get_queryset(self):
         stylist_id = self.kwargs['stylist_id']

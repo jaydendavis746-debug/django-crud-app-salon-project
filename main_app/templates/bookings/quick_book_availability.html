@@ -1,5 +1,11 @@
 {% extends "base.html" %}
 
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/bookings/quick-book.css' %}">
+{% endblock %}
+
 {% block content %}
 
 <div class="glass-card">
@@ -9,10 +15,6 @@
 
   <div class="slots-grid">
 
-    <div style="padding:20px; background:#fee;">
-    <p>DEBUG — Stylist ID passed: {{ stylist.id }}</p>
-    <p>DEBUG — Service ID passed: {{ service.id }}</p>
-    <p>DEBUG — Slots found: {{ slots|length }}</p>
 
     {% for s in slots %}
         <p>Slot: {{ s.id }} — {{ s.date }} {{ s.time }} — stylist_id={{ s.stylist_id }}</p>
