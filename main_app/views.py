@@ -368,19 +368,19 @@ class StylistTemplate(StylistRequiredMixin, TemplateView):
         return context
 
 
-class StylistProfile(StylistRequiredMixin, UserPassesTestMixin, View):
+class StylistProfileView(StylistRequiredMixin, UserPassesTestMixin, View):
 
     def test_func(self):
         return hasattr(self.request.user, 'stylistprofile')
 
     def get(self, request):
-    profile = request.user.stylistprofile
-    user_form = UserForm(instance=request.user)
-    profile_form = StylistProfileForm(instance=profile)
-    return render(request, 'stylist/profile.html', {
-        'user_form': user_form,
-        'profile_form': profile_form,
-    })
+        profile = request.user.stylistprofile
+        user_form = UserForm(instance=request.user)
+        profile_form = StylistProfileForm(instance=profile)
+        return render(request, 'stylists/profile.html', {
+            'user_form': user_form,
+            'profile_form': profile_form,
+        })
 
     def post(self, request):
         profile = request.user.stylistprofile
@@ -392,7 +392,7 @@ class StylistProfile(StylistRequiredMixin, UserPassesTestMixin, View):
             profile_form.save()
             return redirect('stylist-profile')
 
-        return render(request, 'stylist/profile.html', {
+        return render(request, 'stylists/profile.html', {
             'user_form': user_form,
             'profile_form': profile_form,
         })

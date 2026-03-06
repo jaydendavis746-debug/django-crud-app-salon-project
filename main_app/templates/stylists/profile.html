@@ -1,4 +1,10 @@
 {% extends "base.html" %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/stylists/stylist-profile.css' %}">
+{% endblock %}
+
 {% block content %}
 
 <h1 class="dashboard-title">Your Profile</h1>
