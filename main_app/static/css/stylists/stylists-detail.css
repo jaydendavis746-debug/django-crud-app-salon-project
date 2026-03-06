@@ -1,0 +1,90 @@
+.stylist-profile-wrapper {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: var(--space-7) var(--space-4);
+}
+
+.profile-avatar img {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: var(--shadow-medium);
+  border: 2px solid rgba(255,255,255,0.4);
+}
+
+.avatar-placeholder {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: white;
+  box-shadow: var(--shadow-medium);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(14px);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  margin-bottom: var(--space-6);
+  box-shadow: var(--shadow-medium);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  animation: fadeIn 0.4s ease;
+}
+
+.stylist-hero {
+  display: flex;
+  gap: var(--space-6);
+  align-items: center;
+}
+
+.stylist-photo {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: var(--shadow-small);
+}
+
+.stylist-name {
+  font-size: 2rem;
+  margin-bottom: var(--space-2);
+}
+
+.stylist-links a {
+  margin-right: var(--space-3);
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.specialties-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.specialty-tag {
+  background: rgba(0,0,0,0.1);
+  padding: 6px 12px;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--space-4);
+}
+
+.service-card {
+  background: rgba(255,255,255,0.4);
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-small);
+}

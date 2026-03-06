@@ -1,36 +1,77 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/stylists/stylists-detail.css' %}">
+{% endblock %}
+
 {% block content %}
 
-<main>
-    <section class="stylist-header">
-        <h1>Stylist: {{ stylist.username }}</h1>
-    </section>
+<div class="stylist-profile-wrapper">
 
-    <section class="stylist-services">
-    <h2>Services & Available Time Slots</h2>
+  
+  <div class="stylist-hero glass-card">
+    <div class="profile-avatar">
+        {% if profile_form.instance.profile_picture %}
+          <img src="{{ profile_form.instance.profile_picture.url }}" alt="Profile picture">
+        {% else %}
+          <div class="avatar-placeholder">{{ stylist.first_name|first|upper }}</div>
+        {% endif %}
+      </div>
 
-    {% for item in service_slots %}
-        <h3>{{ item.service.name }} - £{{ item.price }}</h3>
+    <div class="stylist-info">
+      <h1 class="stylist-name">{{ stylist.first_name }} {{ stylist.last_name }}</h1>
+      <p class="stylist-role">Professional Stylist</p>
 
-        <ul>
-            {% for slot in item.slots %}
-                <li>
-                    {{ slot.date }} at {{ slot.time }}
+      
+      <div class="stylist-links">
+        {% if stylist.instagram %}
+          <a href="{{ stylist.instagram }}" target="_blank">Instagram</a>
+        {% endif %}
+        {% if stylist.website %}
+          <a href="{{ stylist.website }}" target="_blank">Website</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
 
-                    <a href="{% url 'book-appointment' slot.id item.service.id %}">
-                        Book
-                    </a>
-                </li>
-            {% empty %}
-                <li>No available slots for this service.</li>
-            {% endfor %}
-        </ul>
+  
+  <div class="stylist-section glass-card">
+    <h2 class="section-title">About {{ stylist.first_name }}</h2>
+    <p class="stylist-bio">{{ stylist.bio }}</p>
+  </div>
 
-    {% empty %}
-        <p>This stylist has no services yet.</p>
-    {% endfor %}
-</section>
+  
+  <div class="stylist-section glass-card">
+    <h2 class="section-title">Specialties</h2>
+    <div class="specialties-list">
+      {% for specialty in stylist.specialty %}
+        <span class="specialty-tag">{{ specialty.name }}</span>
+      {% empty %}
+        <p>No specialties listed yet.</p>
+      {% endfor %}
+    </div>
+  </div>
 
-</main>
+  
+  <div class="stylist-section glass-card">
+    <h2 class="section-title">Services Offered</h2>
+
+    <div class="services-grid">
+      {% for service in stylist.services.all %}
+        <div class="service-card">
+          <h3>{{ service.name }}</h3>
+          <p class="service-desc">{{ service.description }}</p>
+          <p class="service-meta">
+            £{{ service.price }} • {{ service.duration }} mins
+          </p>
+        </div>
+      {% empty %}
+        <p>No services available.</p>
+      {% endfor %}
+    </div>
+  </div>
+
+</div>
 
 {% endblock %}
