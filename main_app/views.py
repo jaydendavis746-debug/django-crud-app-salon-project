@@ -346,7 +346,7 @@ class StylistRequiredMixin(LoginRequiredMixin):
     def dispatch(self, request, *args, **kwargs):
         if not hasattr(request.user, 'stylistprofile'):
             return redirect('home')
-        return super().dispacth(request, *args, **kwargs) 
+        return super().dispatch(request, *args, **kwargs) 
 
 
 class StylistTemplate(StylistRequiredMixin, TemplateView):

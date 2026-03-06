@@ -73,10 +73,14 @@ header {
   box-shadow: var(--shadow-soft);
   padding: var(--space-3) var(--space-6);
   z-index: 1000;
-
   display: flex;
   align-items: center;
   gap: var(--space-4);
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow: var(--shadow-medium);
 }
 
 .nav-toggle {
@@ -85,18 +89,20 @@ header {
   border: none;
   font-size: 2rem;
   cursor: pointer;
+  color: var(--color-text);
 }
 
 
 nav {
   display: none;
   width: 100%;
-  background: var(--color-white);
-  padding: var(--space-4);
-  box-shadow: var(--shadow-soft);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
   position: absolute;
   top: 70px;
   left: 0;
+  padding: var(--space-4);
+  box-shadow: var(--shadow-medium);
 }
 
 
@@ -230,14 +236,6 @@ input:focus, select:focus {
   box-shadow: 0 0 0 2px rgba(212,163,115,0.2);
 }
 
-
-
-
-
-
-
-  
-  
 
 
 
