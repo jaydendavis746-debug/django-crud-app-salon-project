@@ -398,3 +398,15 @@ class AvailabilityDelete(DeleteView):
 
     def get_queryset(self):
         return Availability.objects.filter(stylist=self.request.user)
+
+
+
+
+class RoleBasedLoginView(LoginView):
+     template_name = "registration/login.html"
+
+     def get_success_url(self):
+        user = self.request.user
+        if hasattr(user,'Stylistprofile'):
+            return reverse(stylist-dashboard)
+        return reverse('home')

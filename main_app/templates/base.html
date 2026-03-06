@@ -21,8 +21,10 @@
           <li class="nav-logo">
             <a href="/">FIRST<span>LOOK</span></a>
           </li>
-
-          {% if user.is_authenticated %}
+          {% if user.is_authenticated and user.stylistprofile %}
+            <li><a href="{% url 'stylist-dashboard' %}">Stylist Dashboard</a></li>
+            <li><a href="{% url 'stylist-availability' %}">Availability</a></li>
+          {% elif user.is_authenticated %}
             <li><a href="{% url 'service-list' %}">Services</a></li>
             <li><a href="{% url 'booking-list' %}">My Bookings</a></li>
             <li><a href="{% url 'about' %}">About</a></li>
@@ -59,3 +61,4 @@
 
   </body>
 </html>
+ 
