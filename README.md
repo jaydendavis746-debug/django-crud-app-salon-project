@@ -1,3 +1,7 @@
+<img width="1917" height="943" alt="image" src="https://github.com/user-attachments/assets/e3ad6c44-cd6c-47aa-be3f-e3d33a7a4be3" />
+
+
+---
 The deployed app is available at [FirstLook](https://firstlook-salon-3904214644a9.herokuapp.com/)  
 The project planning board can be viewed on [Trello](https://trello.com/b/gtSoMGov/django-project).
 
