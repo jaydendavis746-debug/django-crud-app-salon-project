@@ -80,7 +80,17 @@
 .login-section {
   display: flex;
   justify-content: center;
+  gap: 1.2rem; 
+  margin-top: 2rem;
 }
+
+.login-section .btn {
+  
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
 
 
 
