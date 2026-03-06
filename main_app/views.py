@@ -82,28 +82,39 @@ class StylistDetail(DetailView):
     context_object_name= 'stylist'
 
     def get_queryset(self):
-        return User.objects.filter(is_superuser=True)
+        return User.objects.filter(is_superuser=True).select_related('stylistprofile')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        stylist = self.object
+        profile = stylist.stylistprofile
 
         stylist_services= (
-            StylistService.objects.filter(stylist=self.object).select_related('service')
+            StylistService.objects.filter(stylist=stylist).select_related('service')
         )    
 
         availabilities = (
-            Availability.objects.filter(stylist=self.object, is_booked=False).order_by('date', 'time')
+            Availability.objects.filter(stylist=stylist, is_booked=False).order_by('date', 'time')
         )
 
-        service_slots = []
+        service_slots = [
+        {
+            'service': ss.service,
+            'price': ss.price,
+            'slots': availabilities
+        }
+        for ss in stylist_services
+        ] 
 
-        for ss in stylist_services:
-            service_slots.append({
-                'service': ss.service,
-                'price': ss.price,
-                'slots': availabilities
-            })  
+        specialties = getattr(profile, "specialties", None)
+        if specialties:
+            context["specialties"] = profile.specialties
 
+        
+        context["profile_picture"] = getattr(profile, "profile_picture", None)
+        context["bio"] = getattr(profile, "bio", "")
+        context["instagram"] = getattr(profile, "instagram", "")
+        context["website"] = getattr(profile, "website", "")
         context['service_slots'] = service_slots
 
         return context

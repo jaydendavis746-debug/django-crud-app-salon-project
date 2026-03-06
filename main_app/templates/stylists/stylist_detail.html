@@ -25,11 +25,11 @@
 
       
       <div class="stylist-links">
-        {% if stylist.instagram %}
-          <a href="{{ stylist.instagram }}" target="_blank">Instagram</a>
+        {% if instagram %}
+          <a href="{{ instagram }}" target="_blank">Instagram</a>
         {% endif %}
-        {% if stylist.website %}
-          <a href="{{ stylist.website }}" target="_blank">Website</a>
+        {% if website %}
+          <a href="{{ website }}" target="_blank">Website</a>
         {% endif %}
       </div>
     </div>
@@ -38,7 +38,7 @@
   
   <div class="stylist-section glass-card">
     <h2 class="section-title">About {{ stylist.first_name }}</h2>
-    <p class="stylist-bio">{{ stylist.bio }}</p>
+    <p class="stylist-bio">{{ bio }}</p>
   </div>
 
   
@@ -58,12 +58,12 @@
     <h2 class="section-title">Services Offered</h2>
 
     <div class="services-grid">
-      {% for service in stylist.services.all %}
+      {% for item in service_slots %}
         <div class="service-card">
-          <h3>{{ service.name }}</h3>
-          <p class="service-desc">{{ service.description }}</p>
+          <h3>{{ item.service.name }}</h3>
+          <p class="service-desc">{{ item.service.description }}</p>
           <p class="service-meta">
-            £{{ service.price }} • {{ service.duration }} mins
+            £{{ item.price }} • {{ item.service.duration }} mins
           </p>
         </div>
       {% empty %}
