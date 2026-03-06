@@ -21,4 +21,5 @@ urlpatterns = [
 
   path("api/times/<int:stylist_id>/", views.get_times_for_date, name="get_times_for_date"),
   path('accounts/signup/', views.signup, name='signup'),
+  path("accounts/login/", views.RoleBasedLogin.as_view(), name="login"),
 ]

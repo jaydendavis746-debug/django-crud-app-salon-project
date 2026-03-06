@@ -402,11 +402,11 @@ class AvailabilityDelete(DeleteView):
 
 
 
-class RoleBasedLoginView(LoginView):
+class RoleBasedLogin(LoginView):
      template_name = "registration/login.html"
 
      def get_success_url(self):
         user = self.request.user
-        if hasattr(user,'Stylistprofile'):
-            return reverse(stylist-dashboard)
+        if hasattr(user,'stylistprofile'):
+            return reverse('stylist-dashboard')
         return reverse('home')
