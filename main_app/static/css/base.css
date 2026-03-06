@@ -252,3 +252,50 @@ input:focus, select:focus {
 
 
 
+.about-container h1 {
+  font-size: 2.2rem;
+  margin-bottom: 10px;
+}
+
+.page-contents p {
+  margin-bottom: 20px;
+  opacity: 0.85;
+  line-height: 1.6;
+}
+
+.stylist-gallery {
+  display: grid;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+@media (min-width: 600px) {
+  .stylist-gallery {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+
+
+
+
+.contact-footer {
+  margin-top: 60px;
+  padding: 40px 20px;
+  background: rgba(255,255,255,0.05);
+  border-top: 1px solid rgba(255,255,255,0.15);
+  backdrop-filter: blur(12px);
+  text-align: center;
+}
+
+.contact-footer h2 {
+  margin-bottom: 10px;
+  font-size: 1.6rem;
+}
+
+.contact-footer p {
+  margin: 4px 0;
+  opacity: 0.8;
+  font-size: 0.95rem;
+}
+
