@@ -75,13 +75,13 @@ class QuickBookAvailability(ListView):
     def get_queryset(self):
         stylist_id = self.kwargs['stylist_id']
         return Availability.objects.filter(
-            stylist_id=stylist_is,
+            stylist_id=stylist_id,
             is_booked=False
         ).order_by('date', 'time')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['service'] = Servuice.objects.get(id=self.kwargs['service_id'])
+        context['service'] = Service.objects.get(id=self.kwargs['service_id'])
         context['stylist'] = User.objects.get(id=self.kwargs['stylist_id'])
         return context
 
@@ -579,7 +579,7 @@ class StylistServiceCreate(StylistRequiredMixin, CreateView):
 
 class StylistServiceUpdate(StylistRequiredMixin, UpdateView):
     model = StylistService
-    fields = ["service", "price", "duration"]
+    fields = [ "price", ]
     template_name = "stylists/services/service_form.html"
     success_url = reverse_lazy("stylist-services")
 

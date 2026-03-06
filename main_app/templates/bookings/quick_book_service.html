@@ -9,7 +9,7 @@
 
   <div class="services-grid">
     {% for service in services %}
-      <a class="service-card" href="{% url 'quick_book_stylist' service.id %}">
+      <a class="service-card" href="{% url 'quick-book-stylist' service.id %}">
         <h3>{{ service.name }}</h3>
         <p>{{ service.duration }} mins • £{{ service.price }}</p>
       </a>

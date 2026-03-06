@@ -23,7 +23,7 @@
           type="date" 
           id="date" 
           name="date" 
-          value="{{ form.date.value|default:availability.date }}"
+          value="{{ availability.date }}"
           class="form-input"
           required
       >
@@ -33,7 +33,7 @@
           type="time" 
           id="time" 
           name="time" 
-          value="{{ form.time.value|default:availability.time }}"
+          value="{{ availability.time }}"
           class="form-input"
           required
       >

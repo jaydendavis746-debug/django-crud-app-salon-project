@@ -8,9 +8,20 @@
   <p>{{ service.name }} with {{ stylist.first_name }} {{ stylist.last_name }}</p>
 
   <div class="slots-grid">
+
+    <div style="padding:20px; background:#fee;">
+    <p>DEBUG — Stylist ID passed: {{ stylist.id }}</p>
+    <p>DEBUG — Service ID passed: {{ service.id }}</p>
+    <p>DEBUG — Slots found: {{ slots|length }}</p>
+
+    {% for s in slots %}
+        <p>Slot: {{ s.id }} — {{ s.date }} {{ s.time }} — stylist_id={{ s.stylist_id }}</p>
+    {% endfor %}
+</div>
+
     {% for slot in slots %}
       <a class="slot-card"
-         href="{% url 'book_appointment' availability_id=slot.id service_id=service.id %}">
+         href="{% url 'book-appointment' availability_id=slot.id service_id=service.id %}">
         {{ slot.date }} at {{ slot.time }}
       </a>
     {% endfor %}

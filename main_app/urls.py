@@ -4,9 +4,9 @@ from . import views
 urlpatterns = [
   path('', views.Home.as_view(), name='home'),
   path('about/', views.about, name='about'),
-  path("quick-book/", views.QuickBookService.as_view(), name="quick_book_service"),
-  path("quick-book/<int:service_id>/stylists/", views.QuickBookStylist.as_view(), name="quick_book_stylist"),
-  path("quick-book/<int:service_id>/<int:stylist_id>/slots/", views.QuickBookAvailability.as_view(), name="quick_book_availability"),
+  path("quick-book/", views.QuickBookService.as_view(), name="quick-book-service"),
+  path("quick-book/<int:service_id>/stylists/", views.QuickBookStylist.as_view(), name="quick-book-stylist"),
+  path("quick-book/<int:service_id>/<int:stylist_id>/slots/", views.QuickBookAvailability.as_view(), name="quick-book-availability"),
   path('services/', views.ServiceList.as_view(), name='service-list'),
   path('services/<int:pk>/', views.ServiceDetail.as_view(), name='service-detail'),
   path('stylist/<int:pk>/', views.StylistDetail.as_view(), name='stylist-detail'),

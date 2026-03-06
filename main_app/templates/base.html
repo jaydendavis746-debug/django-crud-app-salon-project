@@ -33,6 +33,7 @@
               </form>
             </li>
           {% elif user.is_authenticated %}
+            <li><a href="{% url 'quick-book-service' %}">Quick Book</a></li>
             <li><a href="{% url 'service-list' %}">Services</a></li>
             <li><a href="{% url 'booking-list' %}">My Bookings</a></li>
             <li><a href="{% url 'about' %}">About</a></li>
@@ -43,6 +44,7 @@
               </form>
             </li>
           {% else %}
+            <li><a href="{% url 'quick-book-service' %}">Quick Book</a></li>
             <li><a href="{% url 'service-list' %}">Services</a></li>
             <li><a href="{% url 'about' %}">About</a></li>
             <li><a href="{% url 'login' %}">Login</a></li>
