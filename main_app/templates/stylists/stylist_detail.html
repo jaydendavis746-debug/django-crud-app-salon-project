@@ -59,20 +59,41 @@
     <h2 class="section-title">Services Offered</h2>
 
     <div class="services-grid">
-      {% for item in service_slots %}
-        <div class="service-card">
-          <h3>{{ item.service.name }}</h3>
-          <p class="service-desc">{{ item.service.description }}</p>
-          <p class="service-meta">
-            £{{ item.price }} • {{ item.service.duration }} mins
-          </p>
-        </div>
-      {% empty %}
-        <p>No services available.</p>
-      {% endfor %}
-    </div>
-  </div>
+  {% for item in service_slots %}
+    <div class="service-card glass-card">
 
+      <h3>{{ item.service.name }}</h3>
+      <p class="service-meta">£{{ item.price }} • {{ item.service.duration }} mins</p>
+
+      <div class="availability-section">
+        <label>Select a time</label>
+        <select class="slot-select">
+          <option value="">Choose a slot</option>
+          {% for slot in item.slots %}
+            <option value="{% url 'book-appointment' availability_id=slot.id service_id=item.service.id %}">
+              {{ slot.date }} at {{ slot.time }}
+            </option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <button class="btn book-btn" onclick="goToSlot(this)">Book Appointment</button>
+
+    </div>
+  {% endfor %}
 </div>
+
+<script>
+function goToSlot(button) {
+  const select = button.parentElement.querySelector('.slot-select');
+  const url = select.value;
+  if (url) {
+    window.location.href = url;
+  } else {
+    alert("Please select a time slot first.");
+  }
+}
+</script>
+
 
 {% endblock %}
