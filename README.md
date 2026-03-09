@@ -26,8 +26,9 @@ FirstLook is a full‑stack salon management platform built with Django, designe
 - Personalised dashboard for each stylist  
 - Create, update, and delete availability slots  
 - Automatic locking of booked availability  
-- Manage bookings and reschedule appointments  
-- CRUD management for services, availability, and bookings  
+- Manage and delete bookings 
+- CRUD management for services, availability
+- Stylist profile page with ability to edit 
 - Unified design system across all dashboard pages  
 
 #### **Brand & UI System**
@@ -109,7 +110,3 @@ This creates a premium, memorable experience that elevates the salon’s digital
 ---
 
 
-
----
-
-If you want, I can also generate a **shorter GitHub‑friendly version**, a **portfolio‑optimized version**, or a **branding showcase section** that highlights your FL monogram and design system.
