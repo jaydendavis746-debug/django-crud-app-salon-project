@@ -22,7 +22,7 @@
           <li class="nav-logo">
             <a href="/">FIRST<span>LOOK</span></a>
           </li>
-          {% if user.is_authenticated and user.stylistprofile %}
+          {% if user.is_authenticated and user.is_superuser %}
             <li><a href="{% url 'stylist-dashboard' %}">Stylist Dashboard</a></li>
             <li><a href="{% url 'stylist-availability' %}">Availability</a></li>
             <li><a href="{% url 'stylist-services' %}">Services</a></li>
