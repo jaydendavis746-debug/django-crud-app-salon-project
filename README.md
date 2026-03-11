@@ -4,7 +4,7 @@
 ---
 The deployed app is available at [FirstLook](https://firstlook-salon-3904214644a9.herokuapp.com/)  
 The project planning board can be viewed on [Trello](https://trello.com/b/gtSoMGov/django-project).
-
+The GitHub repo is available at [Github/Firstlook-project](https://github.com/jaydendavis746-debug/django-crud-app-salon-project)
 
 # **FirstLook — Luxury Salon Booking Platform**
 
